@@ -1,3 +1,4 @@
+import ProductCard from "@/components/ProductCard";
 import type { ProductsResponse } from "./types";
 
 const API_URL = "http://localhost:4000";
@@ -12,13 +13,16 @@ export default async function Home() {
     `${API_URL}/products/?_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
   ).then((res) => res.json());
 
-
-console.log(products);
+  // console.log(products);
 
   return (
     <main>
       <h1>Products</h1>
-      <div>{products.map((product) => <h2 key={product.id}>{product.title} - {product.category?.name}</h2>)}</div>
+      <div className="products-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </main>
   );
 }
