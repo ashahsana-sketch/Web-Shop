@@ -1,9 +1,11 @@
 import type { ProductsResponse } from "./types";
+import Header from "./components/Header/page";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
 
 export default async function Home() {
+
   // we use the fetch() method to get the products from the API
   // in this fetch we sort using _sort and _order and we limit the number of products using _limit
   // we also use _expand to get the relational category data
@@ -17,12 +19,7 @@ console.log(products);
 
   return (
     <main>
-      Header of the page with the title "Inventory managemnet"
-      <header style={{ backgroundColor: "gray", padding: "1rem" }}>
-  <h1>Inventory Management</h1>
-  <h3>Manage and track your global product catalogue across all categories</h3>
-</header>
-
+      <Header /> {/* calling the Header component to display the header of the page */}
       <div>{products.map((product) => <h2 key={product.id}>{product.title} - {product.category?.name}</h2>)}</div>
     </main>
   );
