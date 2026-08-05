@@ -1,4 +1,5 @@
 import type { ProductsResponse } from "./types";
+import SearchBar from "./components/SearchBar";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
@@ -18,6 +19,7 @@ console.log(products);
   return (
     <main>
       <h1>Products</h1>
+      <SearchBar />
       <div>{products.map((product) => <h2 key={product.id}>{product.title} - {product.category?.name}</h2>)}</div>
     </main>
   );
