@@ -17,7 +17,12 @@ console.log(products);
 
   return (
     <main>
-      <h1>Products</h1>
+      Header of the page with the title "Inventory managemnet"
+      <header style={{ backgroundColor: "gray", padding: "1rem" }}>
+  <h1>Inventory Management</h1>
+  <h3>Manage and track your global product catalogue across all categories</h3>
+</header>
+
       <div>{products.map((product) => <h2 key={product.id}>{product.title} - {product.category?.name}</h2>)}</div>
     </main>
   );
