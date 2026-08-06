@@ -70,6 +70,8 @@ export default async function Home({ searchParams }: HomeProps) {
           </h2>
         ))}
       </div>
+      {/* pagination component to display the pagination of the page,
+        passing the current page, total pages, total items and page size as props */}
       <Pagination
         currentPage={page}
         totalPages={pages}
