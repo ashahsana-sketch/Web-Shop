@@ -1,6 +1,7 @@
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
+import SearchBar from "./components/SearchBar";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
