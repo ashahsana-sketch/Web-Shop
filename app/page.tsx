@@ -3,18 +3,28 @@ import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
+import { Pagination } from "./components/Pagination/Pagination";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: Promise<{
+    page?: string;
+  }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams;
+  const currentPage = Number(params.page ?? 1);
+
   // we use the fetch() method to get the products from the API
   // in this fetch we sort using _sort and _order and we limit the number of products using _limit
   // we also use _expand to get the relational category data
   // we can use the other destructed variables like page, total and so on to create pagination or show info
   //fetching data from the API and destructuring the response to get the products, total, page, pages and limit
   const { products, total, page, pages, limit }: ProductsResponse = await fetch(
-    `${API_URL}/products/?_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
+    `${API_URL}/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
   ).then((res) => res.json());
   //total instock products
   const inStock = products.filter((product) => product.stock ?? 0 > 0).length;
@@ -31,6 +41,12 @@ export default async function Home() {
 
   return (
     <main>
+      <h1>Products</h1>
+      <div className="products-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
       <Header />{" "}
       {/* calling the Header component to display the header of the page */}
       {/* calling the SummaryCards component to display the summary cards of the page */}
@@ -40,26 +56,28 @@ export default async function Home() {
         lowStock={lowStock}
         outOfStock={outOfStock}
       />
-      <section className="products-table-section">
-        <table className="products-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Brand</th>
-              <th>Category</th>
-              <th>Stock</th>
-              <th>Price</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </tbody>
-        </table>
-      </section>
+      <div>
+        {products.map((product) => (
+          <h2 key={product.id}>
+            {product.title} - {product.category?.name}
+          </h2>
+        ))}
+      </div>
+      <div>
+        {products.map((product) => (
+          <h2 key={product.id}>
+            {product.title} - {product.category?.name}
+          </h2>
+        ))}
+      </div>
+      {/* pagination component to display the pagination of the page,
+        passing the current page, total pages, total items and page size as props */}
+      <Pagination
+        currentPage={page}
+        totalPages={pages}
+        totalItems={total}
+        pageSize={limit}
+      />
     </main>
   );
 }
