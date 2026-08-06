@@ -8,7 +8,6 @@ const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
 
 export default async function Home() {
-
   // we use the fetch() method to get the products from the API
   // in this fetch we sort using _sort and _order and we limit the number of products using _limit
   // we also use _expand to get the relational category data
@@ -17,40 +16,50 @@ export default async function Home() {
   const { products, total, page, pages, limit }: ProductsResponse = await fetch(
     `${API_URL}/products/?_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
   ).then((res) => res.json());
-  //total instock products 
+  //total instock products
   const inStock = products.filter((product) => product.stock ?? 0 > 0).length;
-//total low stock products 
- const lowStock = products.filter((product) => (product.stock ?? 0) > 0 && (product.stock ?? 0) <= 10).length;
-//total out of stock products
-  const outOfStock = products.filter((product) => (product.stock ?? 0) === 0).length;
+  //total low stock products
+  const lowStock = products.filter(
+    (product) => (product.stock ?? 0) > 0 && (product.stock ?? 0) <= 10,
+  ).length;
+  //total out of stock products
+  const outOfStock = products.filter(
+    (product) => (product.stock ?? 0) === 0,
+  ).length;
 
   // console.log(products);
 
   return (
     <main>
-      <h1>Products</h1>
-      <div className="products-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-      <Header /> {/* calling the Header component to display the header of the page */}
-     {/* calling the SummaryCards component to display the summary cards of the page */}
-     <SummaryCards
+      <Header />{" "}
+      {/* calling the Header component to display the header of the page */}
+      {/* calling the SummaryCards component to display the summary cards of the page */}
+      <SummaryCards
         total={total}
         inStock={inStock}
         lowStock={lowStock}
         outOfStock={outOfStock}
       />
+      <section className="products-table-section">
+        <table className="products-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Stock</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-      <div>
-        {products.map((product) => (
-          <h2 key={product.id}>
-            {product.title} - {product.category?.name}
-          </h2>
-        ))}
-      </div>
-      <div>{products.map((product) => <h2 key={product.id}>{product.title} - {product.category?.name}</h2>)}</div>
+          <tbody>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }
