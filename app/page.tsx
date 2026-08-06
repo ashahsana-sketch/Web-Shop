@@ -41,12 +41,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
-      <h1>Products</h1>
-      <div className="products-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      
       <Header />{" "}
       {/* calling the Header component to display the header of the page */}
       {/* calling the SummaryCards component to display the summary cards of the page */}
@@ -56,6 +51,13 @@ export default async function Home({ searchParams }: HomeProps) {
         lowStock={lowStock}
         outOfStock={outOfStock}
       />
+      <SearchBar />
+      <h1>Products</h1>
+      <div className="products-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
       <div>
         {products.map((product) => (
           <h2 key={product.id}>
