@@ -1,3 +1,4 @@
+import ProductCard from "@/components/ProductCard";
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
@@ -23,11 +24,16 @@ export default async function Home() {
 //total out of stock products
   const outOfStock = products.filter((product) => (product.stock ?? 0) === 0).length;
 
-
-console.log(products);
+  // console.log(products);
 
   return (
     <main>
+      <h1>Products</h1>
+      <div className="products-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
       <Header /> {/* calling the Header component to display the header of the page */}
      {/* calling the SummaryCards component to display the summary cards of the page */}
      <SummaryCards
