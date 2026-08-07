@@ -70,14 +70,20 @@ export default async function Home({ searchParams }: HomeProps) {
                 <ProductCard key={product.id} product={product} />
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={6}>
+                  <Pagination
+                    currentPage={page}
+                    totalPages={pages}
+                    totalItems={total}
+                    pageSize={limit}
+                  />
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </section>
-         <Pagination
-        currentPage={page}
-        totalPages={pages}
-        totalItems={total}
-        pageSize={limit}
-      />
       </div>
     </main>
   );
