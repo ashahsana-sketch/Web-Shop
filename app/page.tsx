@@ -51,6 +51,7 @@ export default async function Home({ searchParams }: HomeProps) {
           lowStock={lowStock}
           outOfStock={outOfStock}
         />
+        <SearchBar />
         <section className="products-table-section">
           <table className="products-table">
             <thead>
@@ -71,46 +72,13 @@ export default async function Home({ searchParams }: HomeProps) {
             </tbody>
           </table>
         </section>
-      </div>
-      
-      <Header />{" "}
-      {/* calling the Header component to display the header of the page */}
-      {/* calling the SummaryCards component to display the summary cards of the page */}
-      <SummaryCards
-        total={total}
-        inStock={inStock}
-        lowStock={lowStock}
-        outOfStock={outOfStock}
-      />
-      <SearchBar />
-      <h1>Products</h1>
-      <div className="products-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-      <div>
-        {products.map((product) => (
-          <h2 key={product.id}>
-            {product.title} - {product.category?.name}
-          </h2>
-        ))}
-      </div>
-      <div>
-        {products.map((product) => (
-          <h2 key={product.id}>
-            {product.title} - {product.category?.name}
-          </h2>
-        ))}
-      </div>
-      {/* pagination component to display the pagination of the page,
-        passing the current page, total pages, total items and page size as props */}
-      <Pagination
+         <Pagination
         currentPage={page}
         totalPages={pages}
         totalItems={total}
         pageSize={limit}
       />
+      </div>
     </main>
   );
 }
