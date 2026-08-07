@@ -41,6 +41,37 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
+      <div className="page-container">
+        <Header />{" "}
+        {/* calling the Header component to display the header of the page */}
+        {/* calling the SummaryCards component to display the summary cards of the page */}
+        <SummaryCards
+          total={total}
+          inStock={inStock}
+          lowStock={lowStock}
+          outOfStock={outOfStock}
+        />
+        <section className="products-table-section">
+          <table className="products-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </tbody>
+          </table>
+        </section>
+      </div>
       
       <Header />{" "}
       {/* calling the Header component to display the header of the page */}
