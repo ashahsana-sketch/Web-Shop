@@ -41,8 +41,8 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
-      <div className="page-container">
-        <Header />{" "}
+       <Header />{" "}
+      
         {/* calling the Header component to display the header of the page */}
         {/* calling the SummaryCards component to display the summary cards of the page */}
         <SummaryCards
@@ -52,6 +52,7 @@ export default async function Home({ searchParams }: HomeProps) {
           outOfStock={outOfStock}
         />
         <SearchBar />
+        <div className="page-container">
         <section className="products-table-section">
           <table className="products-table">
             <thead>
