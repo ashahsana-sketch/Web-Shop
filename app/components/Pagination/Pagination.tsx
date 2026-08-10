@@ -28,7 +28,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   const safeCurrentPage = Math.min(Math.max(currentPage, 1), safeTotalPages);
 
   const pageNumbers = useMemo(() => {
-    const pages: (number | string)[] = [];
+    const pages: (number | "...")[] = [];
 
     if (safeTotalPages <= 7) {
       for (let i = 1; i <= safeTotalPages; i++) {
@@ -131,7 +131,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <button
               type="button"
               key={`page-${page}`}
-              onClick={() => changePage(page as number)}
+              onClick={() => changePage(page)}
               aria-current={page === safeCurrentPage ? "page" : undefined}
               aria-label={`Go to page ${page}`}
               disabled={isPending && page !== safeCurrentPage}
