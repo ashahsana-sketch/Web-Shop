@@ -70,7 +70,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <ProductCard key={product.id} product={product} />
               ))}
             </tbody>
-            <tfoot>
+            <tfoot className="pagination-footer">
               <tr>
                 <td colSpan={6}>
                   <Pagination
