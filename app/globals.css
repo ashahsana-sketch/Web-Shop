@@ -187,3 +187,6 @@ body {
 .products-table th:not(:first-child) {
   white-space: nowrap;
 }
+.pagination-footer {
+  background: #fafafa;
+}
