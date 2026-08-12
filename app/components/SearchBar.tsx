@@ -2,14 +2,27 @@ import { Filter } from "lucide-react";
 
 export default function SearchBar() {
   return (
-    <div className="my-4 flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div
+      role="search"
+      className="my-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:flex-row sm:flex-wrap sm:items-center"
+    >
+      <label htmlFor="product-search" className="sr-only">
+        Search products
+      </label>
       <input
+        id="product-search"
         type="text"
         placeholder="Search products..."
-        className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-indigo-400"
+        className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-indigo-400 focus-visible:ring-2 focus-visible:ring-indigo-400"
       />
 
-      <select className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+      <label htmlFor="category-filter" className="sr-only">
+        Filter by category
+      </label>
+      <select
+        id="category-filter"
+        className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
+      >
         {/*Found the categories in localhost:4000/categories, it's hardcoded for now.*/}
         <option>All Categories</option>
         <option>Beauty</option>
@@ -38,16 +51,25 @@ export default function SearchBar() {
         <option>Women's Watches</option>
       </select>
 
-      <select className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+      <label htmlFor="stock-filter" className="sr-only">
+        Filter by stock status
+      </label>
+      <select
+        id="stock-filter"
+        className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
+      >
         <option>All Stock</option>
         <option>In Stock</option>
         <option>Low Stock</option>
         <option>Out of Stock</option>
       </select>
 
-      <button className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm">
+      <button
+        type="button"
+        className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
+      >
         {/*I filled it with fill="currentColor" to get closer to the solid funnel icon in the mockup*/}
-        <Filter size={16} fill="currentColor"/>
+        <Filter size={16} fill="currentColor" aria-hidden="true" />
         Filter
       </button>
     </div>
