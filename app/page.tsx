@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "./components/ProductCard";
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
@@ -41,18 +41,17 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
-       <Header />{" "}
-      
-        {/* calling the Header component to display the header of the page */}
-        {/* calling the SummaryCards component to display the summary cards of the page */}
-        <SummaryCards
-          total={total}
-          inStock={inStock}
-          lowStock={lowStock}
-          outOfStock={outOfStock}
-        />
-        <SearchBar />
-        <div className="page-container">
+      <Header />{" "}
+      {/* calling the Header component to display the header of the page */}
+      {/* calling the SummaryCards component to display the summary cards of the page */}
+      <SummaryCards
+        total={total}
+        inStock={inStock}
+        lowStock={lowStock}
+        outOfStock={outOfStock}
+      />
+      <SearchBar />
+      <div className="page-container">
         <section className="products-table-section">
           <table className="products-table">
             <thead>
