@@ -1,9 +1,10 @@
-"use client";
 
-import { useRouter } from "next/navigation";
+
+// import { useRouter } from "next/navigation";
+import Button from "./button";
 
 export default function Header() {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <main>
@@ -19,13 +20,7 @@ export default function Header() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => router.push("/product/add")}
-            className="shrink-0 rounded-lg px-4 py-2 bg-violet-600 sm:mt-4 text-white font-medium hover:bg-violet-700"
-          >
-            + Add Product
-          </button>
+          <Button />
         </header>
       </div>
     </main>
