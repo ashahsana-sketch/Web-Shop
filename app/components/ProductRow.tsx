@@ -3,6 +3,7 @@ import { productTableColumns } from "./productTableColumns";
 
 interface ProductRowProps {
   product: Product;
+  onProductClick?: (product: Product) => void;
 }
 
 function getStockStatus(stock: number) {
@@ -29,24 +30,33 @@ function getStockStatus(stock: number) {
 const tdBase =
   "border-b border-[#e5e5e5] px-3.5 py-2.5 align-middle text-sm text-[#111111] max-md:px-2.5 max-md:py-3";
 
-export default function ProductRow({ product }: ProductRowProps) {
-  const stock = product.stock ?? 0;
+export default function ProductRow({
+  product,
+  onProductClick,
+}: ProductRowProps) {
+  const stock = Math.max(0, product.stock ?? 0);
   const stockStatus = getStockStatus(stock);
 
   return (
     <tr className="hover:bg-[#fafafa]">
+      {/* Title */}
       <td
         className={`${tdBase} ${productTableColumns.title} whitespace-nowrap max-md:whitespace-normal`}
       >
-        <div className="flex items-center gap-3 max-md:gap-2.5">
+        <button
+          type="button"
+          onClick={() => onProductClick?.(product)}
+          className="flex w-full items-center gap-3 text-left max-md:gap-2.5"
+          aria-label={`View details for ${product.title}`}
+        >
           <img
             src={product.thumbnail}
-            alt={product.title}
+            alt=""
             className="h-10.5 w-10.5 shrink-0 rounded border border-[#e5e5e5] bg-white object-contain max-md:h-11 max-md:w-11"
           />
 
-          <div className="flex flex-col gap-0.75">
-            <span className="whitespace-nowrap font-semibold text-[#111111] max-md:whitespace-normal max-md:leading-tight">
+          <div className="flex min-w-0 flex-col gap-0.75">
+            <span className="truncate font-semibold text-[#111111] max-md:whitespace-normal max-md:leading-tight">
               {product.title}
             </span>
 
@@ -54,42 +64,50 @@ export default function ProductRow({ product }: ProductRowProps) {
               SKU: {product.sku ?? "Not available"}
             </span>
           </div>
-        </div>
+        </button>
       </td>
 
+      {/* Brand */}
       <td
         className={`${tdBase} ${productTableColumns.brand} whitespace-nowrap`}
       >
         {product.brand ?? "Unknown brand"}
       </td>
 
+      {/* Category */}
       <td
         className={`${tdBase} ${productTableColumns.category} whitespace-nowrap`}
       >
         {product.category?.name ?? "Uncategorized"}
       </td>
 
+      {/* Stock */}
       <td
         className={`${tdBase} ${productTableColumns.stock} whitespace-nowrap`}
       >
-        <span className={`font-medium whitespace-nowrap ${stockStatus.className}`}>
-          {stockStatus.label} <span>({stock})</span>
+        <span
+          className={`whitespace-nowrap font-medium ${stockStatus.className}`}
+        >
+          {stockStatus.label} ({stock})
         </span>
       </td>
 
+      {/* Price */}
       <td
         className={`${tdBase} ${productTableColumns.price} whitespace-nowrap font-semibold`}
       >
-        ${product.price.toFixed(2)}
+        ${Number(product.price ?? 0).toFixed(2)}
       </td>
 
+      {/* Actions */}
       <td
         className={`${tdBase} ${productTableColumns.actions} whitespace-nowrap`}
       >
         <div className="flex items-center gap-3 max-md:justify-end max-md:gap-1">
+          {/* Delete */}
           <button
             type="button"
-            className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] hover:text-violet-700 max-md:h-6.5 max-md:w-6.5"
+            className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] transition hover:text-red-600 max-md:h-6.5 max-md:w-6.5"
             aria-label={`Delete ${product.title}`}
           >
             <svg
@@ -108,9 +126,10 @@ export default function ProductRow({ product }: ProductRowProps) {
             </svg>
           </button>
 
+          {/* Edit */}
           <button
             type="button"
-            className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] hover:text-violet-700 max-md:h-6.5 max-md:w-6.5"
+            className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] transition hover:text-violet-700 max-md:h-6.5 max-md:w-6.5"
             aria-label={`Edit ${product.title}`}
           >
             <svg
