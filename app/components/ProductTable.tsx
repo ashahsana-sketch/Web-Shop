@@ -1,6 +1,7 @@
 import type { Product } from "@/app/types";
 import ProductRow from "./ProductRow";
 import { Pagination } from "./Pagination/Pagination";
+import { productTableColumns } from "./productTableColumns";
 
 interface ProductTableProps {
   products: Product[];
@@ -10,6 +11,9 @@ interface ProductTableProps {
   pageSize: number;
 }
 
+const thBase =
+  "border-b border-[#dddddd] bg-[#fafafa] px-3.5 py-4 text-left text-[13px] font-semibold text-[#444444] max-md:px-2.5 max-md:py-3";
+
 export default function ProductTable({
   products,
   currentPage,
@@ -18,16 +22,38 @@ export default function ProductTable({
   pageSize,
 }: ProductTableProps) {
   return (
-    <section className="products-table-section">
-      <table className="products-table">
+    <section className="mt-6 w-full overflow-x-auto rounded-lg border border-[#dcdcdc] bg-white max-md:mt-4 max-md:overflow-x-hidden">
+      <table className="w-full table-auto border-collapse max-md:table-fixed">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Stock</th>
-            <th>Price</th>
-            <th>Actions</th>
+            <th className={`${thBase} ${productTableColumns.title}`}>
+              Title
+            </th>
+            <th
+              className={`${thBase} ${productTableColumns.brand} whitespace-nowrap`}
+            >
+              Brand
+            </th>
+            <th
+              className={`${thBase} ${productTableColumns.category} whitespace-nowrap`}
+            >
+              Category
+            </th>
+            <th
+              className={`${thBase} ${productTableColumns.stock} whitespace-nowrap`}
+            >
+              Stock
+            </th>
+            <th
+              className={`${thBase} ${productTableColumns.price} whitespace-nowrap`}
+            >
+              Price
+            </th>
+            <th
+              className={`${thBase} ${productTableColumns.actions} whitespace-nowrap`}
+            >
+              Actions
+            </th>
           </tr>
         </thead>
 
@@ -36,7 +62,7 @@ export default function ProductTable({
             <ProductRow key={product.id} product={product} />
           ))}
         </tbody>
-        <tfoot className="pagination-footer">
+        <tfoot className="bg-[#fafafa]">
           <tr>
             <td colSpan={6}>
               <Pagination
