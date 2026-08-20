@@ -1,9 +1,8 @@
-import ProductCard from "./components/ProductCard";
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
-import { Pagination } from "./components/Pagination/Pagination";
+import ProductTable from "./components/ProductTable";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
@@ -52,38 +51,13 @@ export default async function Home({ searchParams }: HomeProps) {
       />
       <SearchBar />
       <div className="page-container">
-        <section className="products-table-section">
-          <table className="products-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </tbody>
-            <tfoot className="pagination-footer">
-              <tr>
-                <td colSpan={6}>
-                  <Pagination
-                    currentPage={page}
-                    totalPages={pages}
-                    totalItems={total}
-                    pageSize={limit}
-                  />
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </section>
+        <ProductTable
+          products={products}
+          currentPage={page}
+          totalPages={pages}
+          totalItems={total}
+          pageSize={limit}
+        />
       </div>
     </main>
   );
