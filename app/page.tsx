@@ -1,9 +1,8 @@
-import ProductCard from "@/components/ProductCard";
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
-import { Pagination } from "./components/Pagination/Pagination";
+import ProductTable from "./components/ProductTable";
 
 const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
@@ -41,50 +40,24 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
-       <Header />
-      
-        {/* calling the Header component to display the header of the page */}
-        {/* calling the SummaryCards component to display the summary cards of the page */}
-        <SummaryCards
-          total={total}
-          inStock={inStock}
-          lowStock={lowStock}
-          outOfStock={outOfStock}
+      <Header />
+      {/* calling the Header component to display the header of the page */}
+      {/* calling the SummaryCards component to display the summary cards of the page */}
+      <SummaryCards
+        total={total}
+        inStock={inStock}
+        lowStock={lowStock}
+        outOfStock={outOfStock}
+      />
+      <SearchBar />
+      <div className="page-container">
+        <ProductTable
+          products={products}
+          currentPage={page}
+          totalPages={pages}
+          totalItems={total}
+          pageSize={limit}
         />
-        <SearchBar />
-        <div className="page-container">
-        <section className="products-table-section">
-          <table className="products-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </tbody>
-            <tfoot className="pagination-footer">
-              <tr>
-                <td colSpan={6}>
-                  <Pagination
-                    currentPage={page}
-                    totalPages={pages}
-                    totalItems={total}
-                    pageSize={limit}
-                  />
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </section>
       </div>
     </main>
   );
