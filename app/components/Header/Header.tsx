@@ -1,4 +1,11 @@
+
+
+// import { useRouter } from "next/navigation";
+import Button from "./button";
+
 export default function Header() {
+  // const router = useRouter();
+
   return (
     <main className="bg-white shadow-md">
       {/* Header of the page with the title "Inventory Management" */}
@@ -8,14 +15,13 @@ export default function Header() {
             <h1 className="md:text-3xl text-2xl font-bold text-gray-900">
               Inventory Management
             </h1>
-            <p className=" py-4 text-gray-600 wrap-break">
-              Manage and track your global product catalogue across all
-              categories.{" "}
+
+            <p className="py-4 text-gray-600 wrap-break">
+              Manage and track your global product catalogue across all categories.
             </p>
           </div>
-          <button className="self-start shrink-0 rounded-lg bg-violet-600 px-4 py-3 text-white font-medium hover:bg-violet-700 md:self-center">
-            + Add Product
-          </button>
+
+          <Button />
         </header>
       </div>
     </main>

@@ -40,7 +40,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main>
-      <Header />{" "}
+      <Header />
       {/* calling the Header component to display the header of the page */}
       {/* calling the SummaryCards component to display the summary cards of the page */}
       <SummaryCards
