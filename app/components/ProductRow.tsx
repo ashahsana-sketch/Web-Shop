@@ -1,6 +1,6 @@
 import type { Product } from "@/app/types";
 
-interface ProductCardProps {
+interface ProductRowProps {
   product: Product;
 }
 
@@ -25,7 +25,7 @@ function getStockStatus(stock: number) {
   };
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductRow({ product }: ProductRowProps) {
   const stock = product.stock ?? 0;
   const stockStatus = getStockStatus(stock);
 

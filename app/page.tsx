@@ -1,4 +1,4 @@
-import ProductCard from "./components/ProductCard";
+import ProductRow from "./components/ProductRow";
 import type { ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
@@ -67,7 +67,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
             <tbody>
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductRow key={product.id} product={product} />
               ))}
             </tbody>
             <tfoot className="pagination-footer">
