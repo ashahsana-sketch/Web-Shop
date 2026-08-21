@@ -60,7 +60,7 @@ export default function ProductRow({ product }: ProductRowProps) {
       <td
         className={`${tdBase} ${productTableColumns.brand} whitespace-nowrap`}
       >
-        {product.brand ?? "Unknown brand"}
+        {product.brand ?? "Generic"}
       </td>
 
       <td
