@@ -11803,7 +11803,76 @@
       ],
       "thumbnail": "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/thumbnail.webp",
       "categoryId": 24
-    
+    },
+    {
+      "title": "Eyeshadow",
+      "brand": "Generic",
+      "price": 45,
+      "stock": 76,
+      "weight": 0,
+      "sku": "BEA-GEN-EYE-195",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-21T08:46:44.619Z",
+        "updatedAt": "2026-08-21T08:46:44.619Z",
+        "barcode": "8844736738521",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/default.webp",
+      "id": 195
+    },
+    {
+      "title": "palette",
+      "brand": "Generic",
+      "price": 43,
+      "stock": 45,
+      "weight": 0,
+      "sku": "BEA-GEN-PAL-196",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-21T08:50:14.298Z",
+        "updatedAt": "2026-08-21T08:50:14.298Z",
+        "barcode": "4207182431880",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [],
+      "thumbnail": "https://cdn.dummyjson.com/product-images/default.webp",
+      "id": 196
     }
   ],
   "categories": [

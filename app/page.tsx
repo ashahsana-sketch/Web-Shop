@@ -5,44 +5,46 @@ import SearchBar from "./components/SearchBar";
 import ProductTable from "./components/ProductTable";
 
 const API_URL = "http://localhost:4000";
-const defaultLimit = "6";
+const PAGE_SIZE = 6;
 
 interface HomeProps {
-  searchParams: Promise<{
-    page?: string;
-  }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const currentPage = Number(params.page ?? 1);
 
-  // we use the fetch() method to get the products from the API
-  // in this fetch we sort using _sort and _order and we limit the number of products using _limit
-  // we also use _expand to get the relational category data
-  // we can use the other destructed variables like page, total and so on to create pagination or show info
-  //fetching data from the API and destructuring the response to get the products, total, page, pages and limit
-  const { products, total, page, pages, limit }: ProductsResponse = await fetch(
-    `${API_URL}/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
-  ).then((res) => res.json());
-  //total instock products
-  const inStock = products.filter((product) => product.stock ?? 0 > 0).length;
-  //total low stock products
-  const lowStock = products.filter(
-    (product) => (product.stock ?? 0) > 0 && (product.stock ?? 0) <= 10,
-  ).length;
-  //total out of stock products
-  const outOfStock = products.filter(
-    (product) => (product.stock ?? 0) === 0,
-  ).length;
+  // Single fetch call with Next.js Time-Based Revalidation (caches for 60 seconds)
+  const response = await fetch(`${API_URL}/products?_expand=category`, {
+    next: { 
+      revalidate: 60, // Revalidates cache every 60 seconds
+      tags: ["products"] // Optional: Allows manual invalidation via revalidateTag('products')
+    },
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to fetch products");
+      return res.json();
+    })
+    .then((data) => (Array.isArray(data) ? data : data.products ?? []))
+    .catch(() => []);
 
-  // console.log(products);
+  const allProducts = Array.isArray(response) ? response : [];
+
+  // Calculate summary metrics from cached full dataset
+  const total = allProducts.length;
+  const inStock = allProducts.filter((p: any) => (p.stock ?? 0) > 0).length;
+  const lowStock = allProducts.filter( (p: any) => (p.stock ?? 0) > 0 && (p.stock ?? 0) <= 10 ).length;
+  const outOfStock = allProducts.filter((p: any) => (p.stock ?? 0) === 0).length;
+
+  // Perform manual pagination in memory
+  const totalPages = Math.ceil(total / PAGE_SIZE) || 1;
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const paginatedProducts = allProducts.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
     <main>
       <Header />
-      {/* calling the Header component to display the header of the page */}
-      {/* calling the SummaryCards component to display the summary cards of the page */}
       <SummaryCards
         total={total}
         inStock={inStock}
@@ -52,11 +54,11 @@ export default async function Home({ searchParams }: HomeProps) {
       <SearchBar />
       <div className="page-container">
         <ProductTable
-          products={products}
-          currentPage={page}
-          totalPages={pages}
+          products={paginatedProducts}
+          currentPage={currentPage}
+          totalPages={totalPages}
           totalItems={total}
-          pageSize={limit}
+          pageSize={PAGE_SIZE}
         />
       </div>
     </main>
