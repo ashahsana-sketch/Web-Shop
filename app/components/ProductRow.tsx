@@ -50,7 +50,7 @@ export default function ProductRow({ product }: ProductRowProps) {
               {product.title}
             </span>
 
-            <span className="text-xs text-[#8a8a8a]">
+            <span className="text-xs text-[#545454]">
               SKU: {product.sku ?? "Not available"}
             </span>
           </div>

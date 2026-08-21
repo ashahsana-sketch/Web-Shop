@@ -8,6 +8,16 @@ interface Category {
   name: string;
 }
 
+// Helper to check for a valid URL structure
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export default function AddProduct() {
   const router = useRouter();
 
@@ -82,7 +92,7 @@ export default function AddProduct() {
             .filter((id) => !isNaN(id));
 
           if (numericIds.length > 0) {
-            const maxId = Math.max(...numericIds);
+            const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 0;
             setNextId(maxId + 1);
           } else {
             setNextId(productsList.length + 1);
@@ -134,6 +144,11 @@ export default function AddProduct() {
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
 
+      // Validate image URL input safely
+      const trimmedUrl = imageUrl.trim();
+      const defaultImage = "https://picsum.photos/seed/picsum/200/300";
+      const validImageUrl = isValidUrl(trimmedUrl) ? trimmedUrl : defaultImage;
+
       const payload = {
         title: title.trim(),
         brand: brand.trim() || "Generic",
@@ -159,8 +174,8 @@ export default function AddProduct() {
           barcode: String(Math.floor(Math.random() * 10000000000000)),
           qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
         },
-        images: imageUrl.trim() ? [imageUrl.trim()] : [],
-        thumbnail: imageUrl.trim() || "https://cdn.dummyjson.com/product-images/default.webp",
+        images: [validImageUrl],
+        thumbnail: validImageUrl,
       };
 
       const response = await fetch("http://localhost:4000/products", {
@@ -178,6 +193,7 @@ export default function AddProduct() {
 
       const createdProduct = await response.json();
 
+      // Set last saved ID and calculate next ID
       setLastSavedId(createdProduct.id);
       setNextId(Number(createdProduct.id) + 1);
 
@@ -204,7 +220,7 @@ export default function AddProduct() {
       <h1 className="mb-6 text-2xl font-bold text-gray-800">Add New Product</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Success Banner displaying the recently created ID */}
+        {/* Success Banner */}
         {lastSavedId && (
           <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 font-medium">
             ✅ Product <strong>#{lastSavedId}</strong> was added successfully!
@@ -214,46 +230,66 @@ export default function AddProduct() {
         {/* Dynamic Display showing upcoming ID */}
         <div className="p-3 bg-violet-50 border border-violet-200 rounded-lg flex justify-between items-center">
           <span className="font-semibold text-violet-900">Assigned ID for New Product:</span>
-          <span className="font-bold text-violet-700 text-lg">  #{lastSavedId ?? nextId}  </span>
+          <span className="font-bold text-violet-700 text-lg"> #{nextId} </span>
         </div>
 
         {/* Title */}
         <div>
-          <label htmlFor="title" className="mb-1 block font-medium text-gray-700"> Product Title * </label>
-          <input id="title"type="text" value={title}   onChange={(e) => setTitle(e.target.value)}   placeholder="e.g. Eyeshadow Palette with Mirror"
+          <label htmlFor="title" className="mb-1 block font-medium text-gray-700">Product Title *</label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (lastSavedId) setLastSavedId(null);
+            }}
+            placeholder="e.g. Eyeshadow Palette with Mirror"
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500" 
-            required />
+            required
+          />
         </div>
 
-        {/* Brand & SKU Row */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="brand" className="mb-1 block font-medium text-gray-700"> Brand</label>
-            <input id="brand" type="text" value={brand} onChange={(e) => setBrand(e.target.value)}  placeholder="e.g. Glamour Beauty"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
-          </div>
-
-          <div>
-            <label htmlFor="sku" className="mb-1 block font-medium text-gray-700">SKU</label>
-            <input id="sku" type="text" value={sku}  onChange={(e) => setSku(e.target.value)}  placeholder="e.g. BEA-GLA-EYE-002"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
-          </div>
+        {/* Brand */}
+        <div>
+          <label htmlFor="brand" className="mb-1 block font-medium text-gray-700">Brand</label>
+          <input
+            id="brand"
+            type="text"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+            placeholder="e.g. Glamour Beauty"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
         </div>
 
         {/* Price & Stock Row */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="price" className="mb-1 block font-medium text-gray-700">Price (Sek) * </label>
-            <input id="price"  type="number"  step="0.01"  value={price} onChange={(e) => setPrice(e.target.value)} placeholder="19.99"
+            <label htmlFor="price" className="mb-1 block font-medium text-gray-700">Price ($) *</label>
+            <input
+              id="price"
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="19.99"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              required/>
+              required
+            />
           </div>
 
           <div>
-            <label htmlFor="stock" className="mb-1 block font-medium text-gray-700"> Stock *</label>
-            <input id="stock" type="number" value={stock} onChange={(e) => setStock(e.target.value)} placeholder="34"
+            <label htmlFor="stock" className="mb-1 block font-medium text-gray-700">Stock *</label>
+            <input
+              id="stock"
+              type="number"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              placeholder="34"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              required/>
+              required
+            />
           </div>
         </div>
 
@@ -261,14 +297,30 @@ export default function AddProduct() {
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label htmlFor="weight" className="mb-1 block font-medium text-gray-700">Weight (g)</label>
-            <input  id="weight"  type="number"  step="0.1"  value={weight}  onChange={(e) => setWeight(e.target.value)}  placeholder="9"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <input
+              id="weight"
+              type="number"
+              step="0.1"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              placeholder="9"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
 
           <div>
-            <label htmlFor="rating" className="mb-1 block font-medium text-gray-700">Rating (0-5) </label>
-            <input  id="rating"   type="number"  step="0.01"  min="0"  max="5"  value={rating}  onChange={(e) => setRating(e.target.value)}  placeholder="2.86"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <label htmlFor="rating" className="mb-1 block font-medium text-gray-700">Rating (0-5)</label>
+            <input
+              id="rating"
+              type="number"
+              step="0.01"
+              min="0"
+              max="5"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              placeholder="2.86"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
 
           <div>
@@ -290,11 +342,13 @@ export default function AddProduct() {
 
         {/* Warranty Information Dropdown */}
         <div>
-          <label htmlFor="warrantyInfo" className="mb-1 block font-medium text-gray-700"> Warranty Information</label>
+          <label htmlFor="warrantyInfo" className="mb-1 block font-medium text-gray-700">Warranty Information</label>
           <select
-            id="warrantyInfo" value={warrantyInfo}
+            id="warrantyInfo"
+            value={warrantyInfo}
             onChange={(e) => setWarrantyInfo(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-violet-500">
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
             <option value="3 days warranty">3 days warranty</option>
             <option value="1 week warranty">1 week warranty</option>
             <option value="1 month warranty">1 month warranty</option>
@@ -304,29 +358,59 @@ export default function AddProduct() {
 
         {/* Tags */}
         <div>
-          <label htmlFor="tags" className="mb-1 block font-medium text-gray-700"> Tags (comma-separated)</label>
-          <input id="tags" type="text" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="beauty, eyeshadow"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+          <label htmlFor="tags" className="mb-1 block font-medium text-gray-700">Tags (comma-separated)</label>
+          <input
+            id="tags"
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="beauty, eyeshadow"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
         </div>
 
-        {/* Image URL */}
+        {/* Image URL Input with Decorative Preview */}
         <div>
-          <label htmlFor="imageUrl" className="mb-1 block font-medium text-gray-700">Image URL</label>
-          <input id="imageUrl" type="url" value={imageUrl}
+          <label htmlFor="imageUrl" className="mb-1 block font-medium text-gray-700">
+            Image URL
+          </label>
+          <input
+            id="imageUrl"
+            type="url"
+            value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="https://cdn.dummyjson.com/product-images/.../1.webp"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
+          
+          {/* Optional visual preview using empty alt="" to avoid redundant text */}
+          {isValidUrl(imageUrl.trim()) && (
+            <div className="mt-2 flex items-center gap-3 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+              <img
+                src={imageUrl.trim()}
+                alt=""
+                className="w-12 h-12 object-cover rounded"
+              />
+              <span className="text-xs text-gray-500">Image preview</span>
+            </div>
+          )}
         </div>
 
         {/* Action Buttons Row */}
         <div className="flex gap-4 pt-2">
-          <button type="button" onClick={() => router.push("/")}
-            className="w-1/2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors text-center">
+          <button
+            type="button"
+            onClick={() => router.push("/")}
+            className="w-1/2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors text-center"
+          >
             Cancel / Back
           </button>
 
-          <button type="submit" disabled={loading}
-            className="w-1/2 rounded-lg bg-violet-600 px-5 py-2.5 text-white hover:bg-violet-700 disabled:opacity-50 font-medium transition-colors">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-1/2 rounded-lg bg-violet-600 px-5 py-2.5 text-white hover:bg-violet-700 disabled:opacity-50 font-medium transition-colors"
+          >
             {loading ? "Saving..." : "Add Product"}
           </button>
         </div>

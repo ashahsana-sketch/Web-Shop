@@ -11805,12 +11805,12 @@
       "categoryId": 24
     },
     {
-      "title": "Eyeshadow",
+      "title": "uyt",
       "brand": "Generic",
-      "price": 45,
-      "stock": 76,
+      "price": 78,
+      "stock": 5,
       "weight": 0,
-      "sku": "BEA-GEN-EYE-195",
+      "sku": "BEA-GEN-UYT-195",
       "rating": 0,
       "tags": [
         "beauty"
@@ -11830,22 +11830,24 @@
       "returnPolicy": "No return policy",
       "minimumOrderQuantity": 1,
       "meta": {
-        "createdAt": "2026-08-21T08:46:44.619Z",
-        "updatedAt": "2026-08-21T08:46:44.619Z",
-        "barcode": "8844736738521",
+        "createdAt": "2026-08-21T10:11:06.574Z",
+        "updatedAt": "2026-08-21T10:11:06.574Z",
+        "barcode": "8922344877712",
         "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
       },
-      "images": [],
-      "thumbnail": "https://cdn.dummyjson.com/product-images/default.webp",
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
       "id": 195
     },
     {
-      "title": "palette",
+      "title": "HJGHJ",
       "brand": "Generic",
-      "price": 43,
-      "stock": 45,
+      "price": 67,
+      "stock": 76,
       "weight": 0,
-      "sku": "BEA-GEN-PAL-196",
+      "sku": "BEA-GEN-HJG-196",
       "rating": 0,
       "tags": [
         "beauty"
@@ -11865,14 +11867,127 @@
       "returnPolicy": "No return policy",
       "minimumOrderQuantity": 1,
       "meta": {
-        "createdAt": "2026-08-21T08:50:14.298Z",
-        "updatedAt": "2026-08-21T08:50:14.298Z",
-        "barcode": "4207182431880",
+        "createdAt": "2026-08-21T10:12:41.030Z",
+        "updatedAt": "2026-08-21T10:12:41.030Z",
+        "barcode": "1355956928460",
         "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
       },
-      "images": [],
-      "thumbnail": "https://cdn.dummyjson.com/product-images/default.webp",
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
       "id": 196
+    },
+    {
+      "title": "Eyeshadows",
+      "brand": "max",
+      "price": 67,
+      "stock": 755,
+      "weight": 0,
+      "sku": "BEA-MAX-EYE-197",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "3 days warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-21T10:16:42.238Z",
+        "updatedAt": "2026-08-21T10:16:42.238Z",
+        "barcode": "159549621043",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 197
+    },
+    {
+      "title": "hytdfy",
+      "brand": "Generic",
+      "price": 5,
+      "stock": 8,
+      "weight": 0,
+      "sku": "BEA-GEN-HYT-198",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-21T10:22:46.665Z",
+        "updatedAt": "2026-08-21T10:22:46.665Z",
+        "barcode": "961912824563",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 198
+    },
+    {
+      "title": "657",
+      "brand": "Generic",
+      "price": 3,
+      "stock": 87,
+      "weight": 0,
+      "sku": "BEA-GEN-657-199",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-21T10:50:20.632Z",
+        "updatedAt": "2026-08-21T10:50:20.632Z",
+        "barcode": "3817105839322",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 199
     }
   ],
   "categories": [

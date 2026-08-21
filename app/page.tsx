@@ -16,12 +16,12 @@ export default async function Home({ searchParams }: HomeProps) {
   const currentPage = Number(params.page ?? 1);
 
   // Single fetch call with Next.js Time-Based Revalidation (caches for 60 seconds)
-  const response = await fetch(`${API_URL}/products?_expand=category`, {
-    next: { 
-      revalidate: 60, // Revalidates cache every 60 seconds
-      tags: ["products"] // Optional: Allows manual invalidation via revalidateTag('products')
-    },
-  })
+  const response = await fetch(
+    `${API_URL}/products?_sort=id&_order=desc&_expand=category`,
+    {
+      next: { revalidate: 60, tags: ["products"] },
+    }
+  )
     .then((res) => {
       if (!res.ok) throw new Error("Failed to fetch products");
       return res.json();
@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   // Calculate summary metrics from cached full dataset
   const total = allProducts.length;
-  const inStock = allProducts.filter((p: any) => (p.stock ?? 0) > 0).length;
+  const inStock = allProducts.filter((p: any) => (p.stock ?? 0) > 10).length;
   const lowStock = allProducts.filter( (p: any) => (p.stock ?? 0) > 0 && (p.stock ?? 0) <= 10 ).length;
   const outOfStock = allProducts.filter((p: any) => (p.stock ?? 0) === 0).length;
 

@@ -29,7 +29,7 @@ export default function SummaryCards({
       title: "Low Stock",
       value: lowStock,
       color: "text-orange-500",
-      icon: <TriangleAlert className="w-6 h-6 text-orange-500" />,
+      icon: <TriangleAlert className="w-6 h-6 text-orange-700" />,
     },
     {
       title: "Out of Stock",
@@ -46,14 +46,14 @@ export default function SummaryCards({
           <div key={card.title} className="bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-gray-600 text-sm">{card.title}</h3>
+                <h3 className="text-gray-700 text-sm">{card.title}</h3>
 
-                <p className={`text-3xl font-bold mt-2 ${card.color}`}>
+                <h4 className={`text-3xl font-bold mt-2 ${card.color}`}>
                   {card.value}
-                </p>
+                </h4>
               </div>
 
-              <div className="flex items-center">{card.icon}</div>
+              <p className="flex items-center">{card.icon}</p>
             </div>
           </div>
         ))}

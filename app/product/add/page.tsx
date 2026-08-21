@@ -1,4 +1,4 @@
-import AddProduct from "../../components/product/AddProduct";
+import AddProduct from "../../components/Header/addProduct/AddProduct";
 
 export default function AddProductPage() {
   return (
