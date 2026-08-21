@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import type { Product } from "@/app/types";
 import ProductRow from "./ProductRow";
+import ProductDetail from "./ProductDetail";
 import { Pagination } from "./Pagination/Pagination";
 import { productTableColumns } from "./productTableColumns";
 
@@ -21,60 +25,96 @@ export default function ProductTable({
   totalItems,
   pageSize,
 }: ProductTableProps) {
-  return (
-    <section className="mt-6 w-full overflow-x-auto rounded-lg border border-[#dcdcdc] bg-white max-md:mt-4 max-md:overflow-x-hidden">
-      <table className="w-full table-auto border-collapse max-md:table-fixed">
-        <thead>
-          <tr>
-            <th className={`${thBase} ${productTableColumns.title}`}>
-              Title
-            </th>
-            <th
-              className={`${thBase} ${productTableColumns.brand} whitespace-nowrap`}
-            >
-              Brand
-            </th>
-            <th
-              className={`${thBase} ${productTableColumns.category} whitespace-nowrap`}
-            >
-              Category
-            </th>
-            <th
-              className={`${thBase} ${productTableColumns.stock} whitespace-nowrap`}
-            >
-              Stock
-            </th>
-            <th
-              className={`${thBase} ${productTableColumns.price} whitespace-nowrap`}
-            >
-              Price
-            </th>
-            <th
-              className={`${thBase} ${productTableColumns.actions} whitespace-nowrap`}
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-        <tbody>
-          {products.map((product) => (
-            <ProductRow key={product.id} product={product} />
-          ))}
-        </tbody>
-        <tfoot className="bg-[#fafafa]">
-          <tr>
-            <td colSpan={6}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={totalItems}
-                pageSize={pageSize}
-              />
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </section>
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleCloseProductDetail = () => {
+    setSelectedProduct(null);
+  };
+
+  return (
+    <>
+      <section className="mt-6 w-full overflow-x-auto rounded-lg border border-[#dcdcdc] bg-white max-md:mt-4 max-md:overflow-x-hidden">
+        <table className="w-full table-auto border-collapse max-md:table-fixed">
+          <thead>
+            <tr>
+              <th className={`${thBase} ${productTableColumns.title}`}>
+                Title
+              </th>
+
+              <th
+                className={`${thBase} ${productTableColumns.brand} whitespace-nowrap`}
+              >
+                Brand
+              </th>
+
+              <th
+                className={`${thBase} ${productTableColumns.category} whitespace-nowrap`}
+              >
+                Category
+              </th>
+
+              <th
+                className={`${thBase} ${productTableColumns.stock} whitespace-nowrap`}
+              >
+                Stock
+              </th>
+
+              <th
+                className={`${thBase} ${productTableColumns.price} whitespace-nowrap`}
+              >
+                Price
+              </th>
+
+              <th
+                className={`${thBase} ${productTableColumns.actions} whitespace-nowrap`}
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductRow
+                  key={product.id}
+                  product={product}
+                  onProductClick={handleProductClick}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="px-6 py-12 text-center text-sm text-[#8a8a8a]"
+                >
+                  No products found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        <div className="border-t border-[#e5e5e5] bg-[#fafafa]">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            pageSize={pageSize}
+          />
+        </div>
+      </section>
+
+      {selectedProduct && (
+        <ProductDetail
+          product={selectedProduct}
+          onBack={handleCloseProductDetail}
+        />
+      )}
+    </>
   );
 }

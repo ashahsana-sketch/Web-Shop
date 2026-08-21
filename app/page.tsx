@@ -1,4 +1,4 @@
-import type { ProductsResponse } from "./types";
+import type { Product, ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
@@ -25,14 +25,23 @@ export default async function Home({ searchParams }: HomeProps) {
   const { products, total, page, pages, limit }: ProductsResponse = await fetch(
     `${API_URL}/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
   ).then((res) => res.json());
-  //total instock products
-  const inStock = products.filter((product) => product.stock ?? 0 > 0).length;
-  //total low stock products
-  const lowStock = products.filter(
-    (product) => (product.stock ?? 0) > 0 && (product.stock ?? 0) <= 10,
+
+  const allProductsResponse: { products: Product[] } = await fetch(
+    `${API_URL}/products?_limit=1000&_expand=category`,
+  ).then((res) => res.json());
+
+  const allProducts = allProductsResponse.products;
+  const inStock = allProducts.filter(
+    (product) => (product.stock ?? 0) > 10,
   ).length;
-  //total out of stock products
-  const outOfStock = products.filter(
+
+  const lowStock = allProducts.filter((product) => {
+    const stock = product.stock ?? 0;
+
+    return stock > 0 && stock <= 10;
+  }).length;
+
+  const outOfStock = allProducts.filter(
     (product) => (product.stock ?? 0) === 0,
   ).length;
 
