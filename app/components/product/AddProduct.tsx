@@ -72,7 +72,9 @@ export default function AddProduct() {
         } else if (Array.isArray(data.data)) {
           productsList = data.data;
         } else if (typeof data === "object" && data !== null) {
-          const possibleArray = Object.values(data).find((val) => Array.isArray(val));
+          const possibleArray = Object.values(data).find((val) =>
+            Array.isArray(val),
+          );
           if (possibleArray) productsList = possibleArray as any[];
         }
 
@@ -106,13 +108,18 @@ export default function AddProduct() {
         const res = await fetch("http://localhost:4000/categories");
         if (res.ok) {
           const data = await res.json();
-          const fetchedCategories = Array.isArray(data) ? data : data.categories || [];
+          const fetchedCategories = Array.isArray(data)
+            ? data
+            : data.categories || [];
           if (fetchedCategories.length > 0) {
             setCategories(fetchedCategories);
           }
         }
       } catch (err) {
-        console.error("Failed to load categories from API, using default list", err);
+        console.error(
+          "Failed to load categories from API, using default list",
+          err,
+        );
       }
     }
     fetchCategories();
@@ -149,7 +156,8 @@ export default function AddProduct() {
         discountPercentage: 0,
         dimensions: { width: 0, height: 0, depth: 0 },
         shippingInformation: "Ships in 3-5 business days",
-        availabilityStatus: (parseInt(stock, 10) || 0) > 0 ? "In Stock" : "Out of Stock",
+        availabilityStatus:
+          (parseInt(stock, 10) || 0) > 0 ? "In Stock" : "Out of Stock",
         reviews: [],
         returnPolicy: "No return policy",
         minimumOrderQuantity: 1,
@@ -160,7 +168,9 @@ export default function AddProduct() {
           qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
         },
         images: imageUrl.trim() ? [imageUrl.trim()] : [],
-        thumbnail: imageUrl.trim() || "https://cdn.dummyjson.com/product-images/default.webp",
+        thumbnail:
+          imageUrl.trim() ||
+          "https://cdn.dummyjson.com/product-images/default.webp",
       };
 
       const response = await fetch("http://localhost:4000/products", {
@@ -213,66 +223,161 @@ export default function AddProduct() {
 
         {/* Dynamic Display showing upcoming ID */}
         <div className="p-3 bg-violet-50 border border-violet-200 rounded-lg flex justify-between items-center">
-          <span className="font-semibold text-violet-900">Assigned ID for New Product:</span>
-          <span className="font-bold text-violet-700 text-lg">  #{lastSavedId ?? nextId}  </span>
+          <span className="font-semibold text-violet-900">
+            Assigned ID for New Product:
+          </span>
+          <span className="font-bold text-violet-700 text-lg">
+            {" "}
+            #{lastSavedId ?? nextId}{" "}
+          </span>
         </div>
 
         {/* Title */}
         <div>
-          <label htmlFor="title" className="mb-1 block font-medium text-gray-700"> Product Title * </label>
-          <input id="title"type="text" value={title}   onChange={(e) => setTitle(e.target.value)}   placeholder="e.g. Eyeshadow Palette with Mirror"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500" 
-            required />
+          <label
+            htmlFor="title"
+            className="mb-1 block font-medium text-gray-700"
+          >
+            {" "}
+            Product Title *{" "}
+          </label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g. Eyeshadow Palette with Mirror"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            required
+          />
         </div>
 
         {/* Brand & SKU Row */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="brand" className="mb-1 block font-medium text-gray-700"> Brand</label>
-            <input id="brand" type="text" value={brand} onChange={(e) => setBrand(e.target.value)}  placeholder="e.g. Glamour Beauty"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <label
+              htmlFor="brand"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              {" "}
+              Brand
+            </label>
+            <input
+              id="brand"
+              type="text"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              placeholder="e.g. Glamour Beauty"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
 
           <div>
-            <label htmlFor="sku" className="mb-1 block font-medium text-gray-700">SKU</label>
-            <input id="sku" type="text" value={sku}  onChange={(e) => setSku(e.target.value)}  placeholder="e.g. BEA-GLA-EYE-002"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <label
+              htmlFor="sku"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              SKU
+            </label>
+            <input
+              id="sku"
+              type="text"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+              placeholder="e.g. BEA-GLA-EYE-002"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
         </div>
 
         {/* Price & Stock Row */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="price" className="mb-1 block font-medium text-gray-700">Price (Sek) * </label>
-            <input id="price"  type="number"  step="0.01"  value={price} onChange={(e) => setPrice(e.target.value)} placeholder="19.99"
+            <label
+              htmlFor="price"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Price (Sek) *{" "}
+            </label>
+            <input
+              id="price"
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="19.99"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              required/>
+              required
+            />
           </div>
 
           <div>
-            <label htmlFor="stock" className="mb-1 block font-medium text-gray-700"> Stock *</label>
-            <input id="stock" type="number" value={stock} onChange={(e) => setStock(e.target.value)} placeholder="34"
+            <label
+              htmlFor="stock"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              {" "}
+              Stock *
+            </label>
+            <input
+              id="stock"
+              type="number"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              placeholder="34"
               className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              required/>
+              required
+            />
           </div>
         </div>
 
         {/* Weight, Rating & Category Select Row */}
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label htmlFor="weight" className="mb-1 block font-medium text-gray-700">Weight (g)</label>
-            <input  id="weight"  type="number"  step="0.1"  value={weight}  onChange={(e) => setWeight(e.target.value)}  placeholder="9"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <label
+              htmlFor="weight"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Weight (g)
+            </label>
+            <input
+              id="weight"
+              type="number"
+              step="0.1"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              placeholder="9"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
 
           <div>
-            <label htmlFor="rating" className="mb-1 block font-medium text-gray-700">Rating (0-5) </label>
-            <input  id="rating"   type="number"  step="0.01"  min="0"  max="5"  value={rating}  onChange={(e) => setRating(e.target.value)}  placeholder="2.86"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            <label
+              htmlFor="rating"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Rating (0-5){" "}
+            </label>
+            <input
+              id="rating"
+              type="number"
+              step="0.01"
+              min="0"
+              max="5"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              placeholder="2.86"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
           </div>
 
           <div>
-            <label htmlFor="categoryId" className="mb-1 block font-medium text-gray-700">Category</label>
+            <label
+              htmlFor="categoryId"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Category
+            </label>
             <select
               id="categoryId"
               value={categoryId}
@@ -290,11 +395,19 @@ export default function AddProduct() {
 
         {/* Warranty Information Dropdown */}
         <div>
-          <label htmlFor="warrantyInfo" className="mb-1 block font-medium text-gray-700"> Warranty Information</label>
+          <label
+            htmlFor="warrantyInfo"
+            className="mb-1 block font-medium text-gray-700"
+          >
+            {" "}
+            Warranty Information
+          </label>
           <select
-            id="warrantyInfo" value={warrantyInfo}
+            id="warrantyInfo"
+            value={warrantyInfo}
             onChange={(e) => setWarrantyInfo(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-violet-500">
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
             <option value="3 days warranty">3 days warranty</option>
             <option value="1 week warranty">1 week warranty</option>
             <option value="1 month warranty">1 month warranty</option>
@@ -304,29 +417,56 @@ export default function AddProduct() {
 
         {/* Tags */}
         <div>
-          <label htmlFor="tags" className="mb-1 block font-medium text-gray-700"> Tags (comma-separated)</label>
-          <input id="tags" type="text" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="beauty, eyeshadow"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+          <label
+            htmlFor="tags"
+            className="mb-1 block font-medium text-gray-700"
+          >
+            {" "}
+            Tags (comma-separated)
+          </label>
+          <input
+            id="tags"
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="beauty, eyeshadow"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
         </div>
 
         {/* Image URL */}
         <div>
-          <label htmlFor="imageUrl" className="mb-1 block font-medium text-gray-700">Image URL</label>
-          <input id="imageUrl" type="url" value={imageUrl}
+          <label
+            htmlFor="imageUrl"
+            className="mb-1 block font-medium text-gray-700"
+          >
+            Image URL
+          </label>
+          <input
+            id="imageUrl"
+            type="url"
+            value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="https://cdn.dummyjson.com/product-images/.../1.webp"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"/>
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
         </div>
 
         {/* Action Buttons Row */}
         <div className="flex gap-4 pt-2">
-          <button type="button" onClick={() => router.push("/")}
-            className="w-1/2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors text-center">
+          <button
+            type="button"
+            onClick={() => router.push("/")}
+            className="w-1/2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors text-center"
+          >
             Cancel / Back
           </button>
 
-          <button type="submit" disabled={loading}
-            className="w-1/2 rounded-lg bg-violet-600 px-5 py-2.5 text-white hover:bg-violet-700 disabled:opacity-50 font-medium transition-colors">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-1/2 rounded-lg bg-violet-600 px-5 py-2.5 text-white hover:bg-violet-700 disabled:opacity-50 font-medium transition-colors"
+          >
             {loading ? "Saving..." : "Add Product"}
           </button>
         </div>

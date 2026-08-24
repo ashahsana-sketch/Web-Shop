@@ -3,8 +3,6 @@ import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
 import ProductTable from "./components/ProductTable";
-
-const API_URL = "http://localhost:4000";
 const defaultLimit = "6";
 
 interface HomeProps {
@@ -23,11 +21,11 @@ export default async function Home({ searchParams }: HomeProps) {
   // we can use the other destructed variables like page, total and so on to create pagination or show info
   //fetching data from the API and destructuring the response to get the products, total, page, pages and limit
   const { products, total, page, pages, limit }: ProductsResponse = await fetch(
-    `${API_URL}/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
+    `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category`,
   ).then((res) => res.json());
 
   const allProductsResponse: { products: Product[] } = await fetch(
-    `${API_URL}/products?_limit=1000&_expand=category`,
+    "http://localhost:4000/products?_limit=1000&_expand=category",
   ).then((res) => res.json());
 
   const allProducts = allProductsResponse.products;
