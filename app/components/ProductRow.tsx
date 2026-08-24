@@ -1,41 +1,25 @@
 import type { Product } from "@/app/types";
+import Link from "next/link";
+import Image from "next/image";
 import { productTableColumns } from "./productTableColumns";
+import { getStockStatus, normalizeStock } from "./productUtils";
 
 interface ProductRowProps {
   product: Product;
-  onProductClick?: (product: Product) => void;
-}
-
-function getStockStatus(stock: number) {
-  if (stock === 0) {
-    return {
-      label: "Out of Stock",
-      className: "text-[#ff293d]",
-    };
-  }
-
-  if (stock <= 10) {
-    return {
-      label: "Low Stock",
-      className: "text-[#e86900]",
-    };
-  }
-
-  return {
-    label: "In Stock",
-    className: "text-[#00a63e]",
-  };
 }
 
 const tdBase =
   "border-b border-[#e5e5e5] px-3.5 py-2.5 align-middle text-sm text-[#111111] max-md:px-2.5 max-md:py-3";
 
-export default function ProductRow({
-  product,
-  onProductClick,
-}: ProductRowProps) {
-  const stock = Math.max(0, product.stock ?? 0);
+export default function ProductRow({ product }: ProductRowProps) {
+  const stock = normalizeStock(product.stock);
   const stockStatus = getStockStatus(stock);
+  const stockClassName =
+    stockStatus.status === "out-of-stock"
+      ? "text-[#ff293d]"
+      : stockStatus.status === "low-stock"
+      ? "text-[#e86900]"
+      : "text-[#00a63e]";
 
   return (
     <tr className="hover:bg-[#fafafa]">
@@ -43,15 +27,15 @@ export default function ProductRow({
       <td
         className={`${tdBase} ${productTableColumns.title} whitespace-nowrap max-md:whitespace-normal`}
       >
-        <button
-          type="button"
-          onClick={() => onProductClick?.(product)}
+        <Link
+          href={`/product/${product.id}`}
           className="flex w-full items-center gap-3 text-left max-md:gap-2.5"
-          aria-label={`View details for ${product.title}`}
         >
-          <img
+          <Image
             src={product.thumbnail}
             alt=""
+            width={44}
+            height={44}
             className="h-10.5 w-10.5 shrink-0 rounded border border-[#e5e5e5] bg-white object-contain max-md:h-11 max-md:w-11"
           />
 
@@ -64,7 +48,7 @@ export default function ProductRow({
               SKU: {product.sku ?? "Not available"}
             </span>
           </div>
-        </button>
+        </Link>
       </td>
 
       {/* Brand */}
@@ -85,9 +69,7 @@ export default function ProductRow({
       <td
         className={`${tdBase} ${productTableColumns.stock} whitespace-nowrap`}
       >
-        <span
-          className={`whitespace-nowrap font-medium ${stockStatus.className}`}
-        >
+        <span className={`whitespace-nowrap font-medium ${stockClassName}`}>
           {stockStatus.label} ({stock})
         </span>
       </td>

@@ -1,9 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import type { Product } from "@/app/types";
 import ProductRow from "./ProductRow";
-import ProductDetail from "./ProductDetail";
 import { Pagination } from "./Pagination/Pagination";
 import { productTableColumns } from "./productTableColumns";
 
@@ -25,16 +21,6 @@ export default function ProductTable({
   totalItems,
   pageSize,
 }: ProductTableProps) {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-  };
-
-  const handleCloseProductDetail = () => {
-    setSelectedProduct(null);
-  };
-
   return (
     <>
       <section className="mt-6 w-full overflow-x-auto rounded-lg border border-[#dcdcdc] bg-white max-md:mt-4 max-md:overflow-x-hidden">
@@ -80,11 +66,7 @@ export default function ProductTable({
           <tbody>
             {products.length > 0 ? (
               products.map((product) => (
-                <ProductRow
-                  key={product.id}
-                  product={product}
-                  onProductClick={handleProductClick}
-                />
+                <ProductRow key={product.id} product={product} />
               ))
             ) : (
               <tr>
@@ -108,13 +90,6 @@ export default function ProductTable({
           />
         </div>
       </section>
-
-      {selectedProduct && (
-        <ProductDetail
-          product={selectedProduct}
-          onBack={handleCloseProductDetail}
-        />
-      )}
     </>
   );
 }
