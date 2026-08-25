@@ -1,49 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import { Filter } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { Category } from "../types";
 
-interface SearchBarProps {
-  categories: Category[];
-}
-
-export default function SearchBar({ categories }: SearchBarProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("categoryId") ?? "",
-  );
-
-  const [selectedStock, setSelectedStock] = useState(
-    searchParams.get("stock") ?? "",
-  );
-
-  const handleFilter = () => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (selectedCategory) {
-      params.set("categoryId", selectedCategory);
-    } else {
-      params.delete("categoryId");
-    }
-
-    if (selectedStock) {
-      params.set("stock", selectedStock);
-    } else {
-      params.delete("stock");
-    }
-
-    params.set("page", "1");
-
-    router.replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
-    });
-  };
-
+export default function SearchBar() {
   return (
     <div className="page-container">
       <div
@@ -53,7 +10,6 @@ export default function SearchBar({ categories }: SearchBarProps) {
         <label htmlFor="product-search" className="sr-only">
           Search products
         </label>
-
         <input
           id="product-search"
           type="text"
@@ -64,43 +20,56 @@ export default function SearchBar({ categories }: SearchBarProps) {
         <label htmlFor="category-filter" className="sr-only">
           Filter by category
         </label>
-
         <select
           id="category-filter"
-          value={selectedCategory}
-          onChange={(event) => setSelectedCategory(event.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
         >
-          <option value="">All Categories</option>
-
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
+          {/*Found the categories in localhost:4000/categories, it's hardcoded for now.*/}
+          <option>All Categories</option>
+          <option>Beauty</option>
+          <option>Fragrances</option>
+          <option>Furniture</option>
+          <option>Groceries</option>
+          <option>Home Decoration</option>
+          <option>Kitchen Accessories</option>
+          <option>Laptops</option>
+          <option>Men's Shirts</option>
+          <option>Men's Shoes</option>
+          <option>Men's Watches</option>
+          <option>Mobile Accessories</option>
+          <option>Motorcycle</option>
+          <option>Skin Care</option>
+          <option>Smartphones</option>
+          <option>Sports Accessories</option>
+          <option>Sunglasses</option>
+          <option>Tablets</option>
+          <option>Tops</option>
+          <option>Vehicle</option>
+          <option>Women's Bags</option>
+          <option>Women's Dresses</option>
+          <option>Women's Jewellery</option>
+          <option>Women's Shoes</option>
+          <option>Women's Watches</option>
         </select>
 
         <label htmlFor="stock-filter" className="sr-only">
           Filter by stock status
         </label>
-
         <select
           id="stock-filter"
-          value={selectedStock}
-          onChange={(event) => setSelectedStock(event.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
         >
-          <option value="">All Stock</option>
-          <option value="in">In Stock</option>
-          <option value="low">Low Stock</option>
-          <option value="out">Out of Stock</option>
+          <option>All Stock</option>
+          <option>In Stock</option>
+          <option>Low Stock</option>
+          <option>Out of Stock</option>
         </select>
 
         <button
           type="button"
-          onClick={handleFilter}
           className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm focus-visible:ring-2 focus-visible:ring-indigo-400"
         >
+          {/*I filled it with fill="currentColor" to get closer to the solid funnel icon in the mockup*/}
           <Filter size={16} fill="currentColor" aria-hidden="true" />
           Filter
         </button>
