@@ -117,35 +117,35 @@ export const Pagination: React.FC<PaginationProps> = ({
         >
           <ChevronLeft size={18} />
         </button>
-
-        {pageNumbers.map((page, index) =>
-          page === "..." ? (
-            <span
-              key={`ellipsis-${index}`}
-              aria-hidden="true"
-              className="px-2 text-gray-400"
-            >
-              ...
-            </span>
-          ) : (
-            <button
-              type="button"
-              key={`page-${page}`}
-              onClick={() => changePage(page)}
-              aria-current={page === safeCurrentPage ? "page" : undefined}
-              aria-label={`Go to page ${page}`}
-              disabled={isPending && page !== safeCurrentPage}
-              className={`min-w-9 h-9 px-3 rounded-md font-medium transition ${
-                page === safeCurrentPage
-                  ? "bg-gray-800 text-white"
-                  : "border hover:bg-gray-100"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              {page}
-            </button>
-          ),
-        )}
-
+        <div className="hidden sm:flex items-center gap-2">
+          {pageNumbers.map((page, index) =>
+            page === "..." ? (
+              <span
+                key={`ellipsis-${index}`}
+                aria-hidden="true"
+                className="px-2 text-gray-400"
+              >
+                ...
+              </span>
+            ) : (
+              <button
+                type="button"
+                key={`page-${page}`}
+                onClick={() => changePage(page)}
+                aria-current={page === safeCurrentPage ? "page" : undefined}
+                aria-label={`Go to page ${page}`}
+                disabled={isPending && page !== safeCurrentPage}
+                className={`min-w-9 h-9 px-3 rounded-md font-medium transition ${
+                  page === safeCurrentPage
+                    ? "bg-gray-800 text-white"
+                    : "border hover:bg-gray-100"
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                {page}
+              </button>
+            ),
+          )}
+        </div>
         <button
           type="button"
           aria-label="Next page"
