@@ -22,6 +22,10 @@ export default function SearchBar({ categories }: SearchBarProps) {
     searchParams.get("stock") ?? "",
   );
 
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") ?? "",
+  );
+
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -35,6 +39,12 @@ export default function SearchBar({ categories }: SearchBarProps) {
       params.set("stock", selectedStock);
     } else {
       params.delete("stock");
+    }
+
+    if (searchTerm.trim()) {
+      params.set("search", searchTerm.trim());
+    } else {
+      params.delete("search");
     }
 
     params.set("page", "1");
@@ -58,6 +68,8 @@ export default function SearchBar({ categories }: SearchBarProps) {
           id="product-search"
           type="text"
           placeholder="Search products..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
           className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none focus:border-indigo-400 focus-visible:ring-2 focus-visible:ring-indigo-400"
         />
 

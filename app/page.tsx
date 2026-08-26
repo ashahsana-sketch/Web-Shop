@@ -10,6 +10,7 @@ interface HomeProps {
     page?: string;
     categoryId?: string;
     stock?: string;
+    search?: string;
   }>;
 }
 
@@ -18,6 +19,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const currentPage = Number(params.page ?? 1);
   const categoryId = params.categoryId;
   const stock = params.stock;
+  const search = params.search;
 
   // we use the fetch() method to get the products from the API
   // in this fetch we sort using _sort and _order and we limit the number of products using _limit
@@ -39,8 +41,12 @@ export default async function Home({ searchParams }: HomeProps) {
     stockFilter = "&stock=0";
   }
 
+  const searchFilter = search?.trim()
+    ? `&q=${encodeURIComponent(search.trim())}`
+    : "";
+
   const { products, total, page, pages, limit }: ProductsResponse = await fetch(
-    `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}`,
+    `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}${searchFilter}`,
   ).then((res) => res.json());
 
   const allProductsResponse: { products: Product[] } = await fetch(
