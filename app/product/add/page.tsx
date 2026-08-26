@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { Category, ProductFormData } from "@/app/types/product";
 import { INITIAL_CATEGORIES } from "@/app/components/utils/catogaries";
 import { fetchNextProductId, createProduct } from "@/app/services/api";
-import { ProductFormInputs } from "@/app/components/Header/AddProduct/productFormInputs";
+import { ProductFormInputs } from "@/app/components/Header/addProduct/productFormInputs";
 
 const initialFormState: ProductFormData = {
   title: "",
@@ -73,6 +73,7 @@ export default function AddProductPage() {
   };
 
   return (
+    <main>
     <div className="p-6 max-w-xl mx-auto bg-white rounded-xl shadow-md border border-gray-100 my-6">
       <h1 className="mb-6 text-2xl font-bold text-gray-800">Add New Product</h1>
 
@@ -99,5 +100,6 @@ export default function AddProductPage() {
         </div>
       </form>
     </div>
+    </main>
   );
 }

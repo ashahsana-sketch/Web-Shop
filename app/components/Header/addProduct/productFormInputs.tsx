@@ -1,6 +1,6 @@
 import React from "react"; // React import because we are typescript and using React.FC
 import { Category, ProductFormData } from "@/app/types/product";
-import { ImagePreview } from "@/app/components/Header/AddProduct/ImagePreview";
+import { ImagePreview } from "@/app/components/Header/addProduct/ImagePreview";
 
 interface ProductFormInputsProps { //interface uses for that data types are defined for the props that the ProductFormInputs component will receive. It ensures that the component receives the correct types of data and helps with type checking during development.
   formData: ProductFormData;
