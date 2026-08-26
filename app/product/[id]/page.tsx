@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Product } from "@/app/types";
-import ProductDetatil from "@/app/components/product/ProductDetail";
+import ProductDetail from "@/app/components/ProductDetail/ProductDetail";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
