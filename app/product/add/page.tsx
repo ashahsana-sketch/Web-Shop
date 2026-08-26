@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { Category, ProductFormData } from "@/app/types/product";
 import { INITIAL_CATEGORIES } from "@/app/components/utils/catogaries";
 import { fetchNextProductId, createProduct } from "@/app/services/api";
-import { ProductFormInputs } from "@/app/components/Header/AddProduct/productFormInputs";
+import { ProductFormInputs } from "@/app/components/Header/AddProduct/productFormInput";
 
 const initialFormState: ProductFormData = {
   title: "",
