@@ -11988,6 +11988,43 @@
       ],
       "thumbnail": "https://picsum.photos/seed/picsum/200/300",
       "id": 199
+    },
+    {
+      "title": "hkjhk",
+      "brand": "Generic",
+      "price": 4,
+      "stock": 50,
+      "weight": 0,
+      "sku": "BEA-GEN-HKJ-200",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-23T11:24:20.531Z",
+        "updatedAt": "2026-08-23T11:24:20.531Z",
+        "barcode": "1843951389293",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 200
     }
   ],
   "categories": [
