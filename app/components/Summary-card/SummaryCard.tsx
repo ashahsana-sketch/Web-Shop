@@ -1,10 +1,11 @@
 import { Package, CircleCheck, TriangleAlert, CircleX } from "lucide-react";
-type SummaryCardsProps = {
+
+interface SummaryCardsProps {
   total: number;
   inStock: number;
   lowStock: number;
   outOfStock: number;
-};
+}
 
 export default function SummaryCards({
   total,
@@ -16,48 +17,61 @@ export default function SummaryCards({
     {
       title: "Total Products",
       value: total,
-      color: "text-violet-700",
-      icon: <Package className="w-6 h-6 text-violet-700" />,
+      textColor: "text-purple-800",
+      iconColor: "text-purple-800",
+      bgColor: "bg-purple-50",
+      icon: Package,
     },
     {
       title: "In Stock",
       value: inStock,
-      color: "text-green-700",
-      icon: <CircleCheck className="w-6 h-6 text-green-700" />,
+      textColor: "text-green-800",
+      iconColor: "text-green-800",
+      bgColor: "bg-emerald-50",
+      icon: CircleCheck,
     },
     {
       title: "Low Stock",
       value: lowStock,
-      color: "text-orange-500",
-      icon: <TriangleAlert className="w-6 h-6 text-orange-500" />,
+      textColor: "text-orange-600",
+      iconColor: "text-orange-600",
+      bgColor: "bg-orange-50",
+      icon: TriangleAlert,
     },
     {
       title: "Out of Stock",
       value: outOfStock,
-      color: "text-red-700",
-      icon: <CircleX className="w-6 h-6 text-red-700" />,
+      textColor: "text-red-800",
+      iconColor: "text-red-800",
+      bgColor: "bg-rose-50",
+      icon: CircleX,
     },
   ];
 
   return (
     <div className="page-container">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {cards.map((card) => (
-          <div key={card.title} className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-gray-600 text-sm">{card.title}</h3>
-
-                <p className={`text-3xl font-bold mt-2 ${card.color}`}>
-                  {card.value}
-                </p>
-              </div>
-
-              <div className="flex items-center">{card.icon}</div>
+      <section 
+        aria-label="Inventory summary statistics"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {cards.map(({ title, value, textColor, iconColor, bgColor, icon: Icon }) => (
+          <article
+            key={title}
+            className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div>
+              <p className="text-sm font-medium text-gray-800">{title}</p>
+              <p className={`mt-1 text-3xl font-bold tracking-tight ${textColor}`}>
+                {value.toLocaleString()}
+              </p>
             </div>
-          </div>
+
+            <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ${bgColor}`}>
+              <Icon className={`h-6 w-6 ${iconColor}`} aria-hidden="true" />
+            </div>
+          </article>
         ))}
-      </div>
+      </section>
     </div>
   );
 }
