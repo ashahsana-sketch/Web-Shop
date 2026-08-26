@@ -14,12 +14,15 @@ const tdBase =
 export default function ProductRow({ product }: ProductRowProps) {
   const stock = normalizeStock(product.stock);
   const stockStatus = getStockStatus(stock);
+  // ...existing code...
+
   const stockClassName =
     stockStatus.status === "out-of-stock"
-      ? "text-[#ff293d]"
+      ? "text-red-800"
       : stockStatus.status === "low-stock"
-      ? "text-[#e86900]"
-      : "text-[#00a63e]";
+        ? "text-orange-700"
+        : "text-green-800";
+
 
   return (
     <tr className="hover:bg-[#fafafa]">
@@ -40,11 +43,11 @@ export default function ProductRow({ product }: ProductRowProps) {
           />
 
           <div className="flex min-w-0 flex-col gap-0.75">
-            <span className="truncate font-semibold text-[#111111] max-md:whitespace-normal max-md:leading-tight">
+            <span className="truncate font-bold text-[#111111] max-md:whitespace-normal max-md:leading-tight">
               {product.title}
             </span>
 
-            <span className="text-xs text-[#8a8a8a]">
+            <span className="text-xs text-[#2e2e2e]">
               SKU: {product.sku ?? "Not available"}
             </span>
           </div>
@@ -65,13 +68,15 @@ export default function ProductRow({ product }: ProductRowProps) {
         {product.category?.name ?? "Uncategorized"}
       </td>
 
+
       {/* Stock */}
       <td
         className={`${tdBase} ${productTableColumns.stock} whitespace-nowrap`}
       >
-        <span className={`whitespace-nowrap font-medium ${stockClassName}`}>
-          {stockStatus.label} ({stock})
-        </span>
+        <span className={stockClassName}>
+          {stockStatus.label}
+        </span>{" "}
+        <span className="text-black">({stock})</span>
       </td>
 
       {/* Price */}
