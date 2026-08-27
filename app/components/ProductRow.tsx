@@ -109,8 +109,8 @@ export default function ProductRow({ product }: ProductRowProps) {
           </button>
 
           {/* Edit */}
-          <button
-            type="button"
+          <Link
+            href={`/product/edit/${product.id}`}
             className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] transition hover:text-violet-700 max-md:h-6.5 max-md:w-6.5"
             aria-label={`Edit ${product.title}`}
           >
@@ -128,7 +128,7 @@ export default function ProductRow({ product }: ProductRowProps) {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </td>
     </tr>

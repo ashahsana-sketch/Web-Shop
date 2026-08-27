@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import type { Product } from "@/app/types";
 import ProductDetail from "@/app/components/ProductDetail/ProductDetail";
+import { getProduct } from "@/app/lib/api";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -15,22 +15,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const response = await fetch(
-    `http://localhost:4000/products/${productId}?_expand=category`,
-    {
-      cache: "no-store",
-    },
-  );
-
-  if (response.status === 404) {
-    notFound();
-  }
-
-  if (!response.ok) {
-    throw new Error(`Unable to load product ${productId}`);
-  }
-
-  const product = (await response.json()) as Product;
+  const product = await getProduct(productId);
+  if (!product) notFound();
 
   return <ProductDetail product={product} />;
 }

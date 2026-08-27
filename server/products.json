@@ -11797,9 +11797,7 @@
         "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
       },
       "images": [
-        "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/1.webp",
-        "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/2.webp",
-        "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/3.webp"
+        "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/thumbnail.webp"
       ],
       "thumbnail": "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/thumbnail.webp",
       "categoryId": 24
