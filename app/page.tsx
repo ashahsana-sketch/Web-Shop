@@ -43,11 +43,11 @@ export default async function Home({ searchParams }: HomeProps) {
   // 2. Parallel fetch with Next.js cache tags
   const [paginatedData, allProductsData, categoriesData] = await Promise.all([
     fetch(paginatedUrl, {
-      next: { tags: ["products"], revalidate: 60 },
+      next: { tags: ["products"], revalidate: 15 },
     }).then((res) => res.json() as Promise<ProductsResponse>),
 
     fetch(allProductsUrl, {
-      next: { tags: ["products-summary"], revalidate: 60 },
+      next: { tags: ["products-summary"], revalidate: 15 },
     }).then((res) => res.json() as Promise<{ products: Product[] }>),
 
     fetch(categoriesUrl, {

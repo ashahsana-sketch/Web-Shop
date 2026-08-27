@@ -1,6 +1,9 @@
+"use client";
+
 import type { Product } from "@/app/types";
 import Link from "next/link";
 import Image from "next/image";
+import { deleteProduct } from "@/app/actions/productActions";
 import { productTableColumns } from "./productTableColumns";
 import { getStockStatus, normalizeStock } from "./productUtils";
 
@@ -92,26 +95,35 @@ export default function ProductRow({ product }: ProductRowProps) {
       >
         <div className="flex items-center gap-3 max-md:justify-end max-md:gap-1">
           {/* Delete */}
-          <button
-            type="button"
-            className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] transition hover:text-red-600 max-md:h-6.5 max-md:w-6.5"
-            aria-label={`Delete ${product.title}`}
+          <form
+            action={deleteProduct.bind(null, product.id)}
+            onSubmit={(event) => {
+              if (!window.confirm(`Delete ${product.title}?`)) {
+                event.preventDefault();
+              }
+            }}
           >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              className="h-5 w-5 max-md:h-4.5 max-md:w-4.5"
+            <button
+              type="submit"
+              className="grid h-7 w-7 cursor-pointer place-items-center border-0 bg-transparent text-[#111111] transition hover:text-red-600 max-md:h-6.5 max-md:w-6.5"
+              aria-label={`Delete ${product.title}`}
             >
-              <path
-                d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13M10 11v5m4-5v5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="h-5 w-5 max-md:h-4.5 max-md:w-4.5"
+              >
+                <path
+                  d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13M10 11v5m4-5v5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </form>
 
           {/* Edit */}
           <Link

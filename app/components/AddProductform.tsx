@@ -89,7 +89,7 @@ export default function AddProductForm({ categories, nextId }: AddProductFormPro
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="price" className="mb-1 block font-medium text-gray-700">
-              Price (SEK) *
+              Price ($) *
             </label>
             <input
               id="price"
