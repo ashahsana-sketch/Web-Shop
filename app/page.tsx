@@ -13,6 +13,7 @@ interface HomeProps {
     page?: string;
     categoryId?: string;
     stock?: string;
+    search?: string;
   }>;
 }
 
@@ -22,6 +23,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const currentPage = Number(params.page ?? 1);
   const categoryId = params.categoryId;
   const stock = params.stock;
+  const search = params.search;
 
   // Build query filters
   const categoryFilter = categoryId ? `&categoryId=${categoryId}` : "";
@@ -34,6 +36,13 @@ export default async function Home({ searchParams }: HomeProps) {
   const paginatedUrl = `${API_BASE_URL}/products?_page=${currentPage}&_limit=${DEFAULT_LIMIT}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}`;
   const allProductsUrl = `${API_BASE_URL}/products?_limit=1000`;
   const categoriesUrl = `${API_BASE_URL}/categories`;
+  const searchFilter = search?.trim()
+    ? `&q=${encodeURIComponent(search.trim())}`
+    : "";
+
+  const { products, total, page, pages, limit }: ProductsResponse = await fetch(
+    `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}${searchFilter}`,
+  ).then((res) => res.json());
 
   // 2. Parallel fetch with Next.js cache tags
   const [paginatedData, allProductsData, categoriesData] = await Promise.all([

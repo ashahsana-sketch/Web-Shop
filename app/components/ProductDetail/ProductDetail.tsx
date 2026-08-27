@@ -37,12 +37,20 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {product.title}
               </h1>
             </div>
-            <Link
-              href="/"
-              className="min-h-10 shrink-0 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
-            >
-              Back to products
-            </Link>
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                href={`/product/edit/${product.id}`}
+                className="min-h-10 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
+              >
+                Edit product
+              </Link>
+              <Link
+                href="/"
+                className="min-h-10 shrink-0 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
+              >
+                Back to products
+              </Link>
+            </div>
           </div>
         </header>
 

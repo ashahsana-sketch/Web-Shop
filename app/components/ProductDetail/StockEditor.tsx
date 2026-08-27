@@ -1,7 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useId,
+} from "react";
 import { useRouter } from "next/navigation";
+import { updateStockAction, type StockEditState } from "./actions";
 
 interface StockEditorProps {
   productId: number;
@@ -15,13 +23,20 @@ export default function StockEditor({
   stock,
 }: StockEditorProps) {
   const router = useRouter();
+  const id = useId();
+  const titleId = `${id}-stock-modal-title`;
+  const descriptionId = `${id}-stock-modal-description`;
+  const inputId = `${id}-stock-quantity`;
 
   const [isOpen, setIsOpen] = useState(false);
   const [stockValue, setStockValue] = useState(stock);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [state, formAction, isPending] = useActionState<
+    StockEditState,
+    FormData
+  >(updateStockAction.bind(null, productId), {});
 
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -39,16 +54,25 @@ export default function StockEditor({
   }, [isOpen]);
 
   const closeDialog = useCallback(() => {
-    if (isSaving) return;
+    if (isPending) return;
 
     setIsOpen(false);
-    setError(null);
 
     // Return keyboard focus to the button that opened the modal.
     requestAnimationFrame(() => {
       triggerRef.current?.focus();
     });
-  }, [isSaving]);
+  }, [isPending]);
+
+  useEffect(() => {
+    if (!state.success) return;
+
+    router.refresh();
+    requestAnimationFrame(() => {
+      setIsOpen(false);
+      triggerRef.current?.focus();
+    });
+  }, [router, state.success]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -93,61 +117,12 @@ export default function StockEditor({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [closeDialog, isOpen, isSaving]);
+  }, [closeDialog, isOpen, isPending]);
 
   const openDialog = () => {
     setStockValue(stock);
-    setError(null);
+    setHasSubmitted(false);
     setIsOpen(true);
-  };
-
-  const saveStock = async () => {
-    // Don't make a request when nothing changed.
-    if (stockValue === stock) {
-      closeDialog();
-      return;
-    }
-
-    if (!Number.isFinite(stockValue) || stockValue < 0) {
-      setError("Stock quantity must be zero or greater.");
-      return;
-    }
-
-    setIsSaving(true);
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `http://localhost:4000/products/${productId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            stock: stockValue,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Unable to update stock");
-      }
-
-      // Close first, then ask Next.js to re-fetch the Server Component.
-      setIsOpen(false);
-      setError(null);
-
-      router.refresh();
-
-      requestAnimationFrame(() => {
-        triggerRef.current?.focus();
-      });
-    } catch {
-      setError("Stock could not be updated. Please try again.");
-    } finally {
-      setIsSaving(false);
-    }
   };
 
   return (
@@ -170,32 +145,29 @@ export default function StockEditor({
             className="absolute inset-0 bg-slate-950/50 backdrop-blur-sm"
           />
 
-          <div
+          <form
+            action={formAction}
             ref={dialogRef}
+            onSubmit={() => setHasSubmitted(true)}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="stock-modal-title"
-            aria-describedby="stock-modal-description"
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            aria-busy={isPending}
             className="relative z-10 w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl sm:p-6"
           >
-            <h2
-              id="stock-modal-title"
-              className="text-lg font-bold text-slate-950"
-            >
+            <h2 id={titleId} className="text-lg font-bold text-slate-950">
               Adjust Stock
             </h2>
 
-            <p
-              id="stock-modal-description"
-              className="mt-1 text-sm text-slate-500"
-            >
+            <p id={descriptionId} className="mt-1 text-sm text-slate-500">
               Update the inventory quantity for{" "}
               <span className="font-medium text-slate-700">{productTitle}</span>
               .
             </p>
 
             <label
-              htmlFor="stock-quantity"
+              htmlFor={inputId}
               className="mt-6 block text-sm font-medium text-slate-700"
             >
               Stock quantity
@@ -203,13 +175,14 @@ export default function StockEditor({
 
             <input
               ref={inputRef}
-              id="stock-quantity"
+              id={inputId}
+              name="stock"
               type="number"
               min={0}
               step={1}
               inputMode="numeric"
               value={stockValue}
-              disabled={isSaving}
+              disabled={isPending}
               onChange={(event) => {
                 const rawValue = event.target.value;
 
@@ -228,9 +201,9 @@ export default function StockEditor({
               className="mt-2 h-11 w-full rounded-lg border border-slate-300 px-3 text-sm text-slate-900 outline-none transition focus:border-violet-600 focus:ring-2 focus:ring-violet-600/20 disabled:cursor-not-allowed disabled:bg-slate-100"
             />
 
-            {error && (
+            {hasSubmitted && state.error && (
               <p role="alert" className="mt-2 text-sm text-red-600">
-                {error}
+                {state.error}
               </p>
             )}
 
@@ -238,22 +211,21 @@ export default function StockEditor({
               <button
                 type="button"
                 onClick={closeDialog}
-                disabled={isSaving}
+                disabled={isPending}
                 className="min-h-11 rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
 
               <button
-                type="button"
-                onClick={saveStock}
-                disabled={isSaving || stockValue === stock}
+                type="submit"
+                disabled={isPending || stockValue === stock}
                 className="min-h-11 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isSaving ? "Saving..." : "Save Stock"}
+                {isPending ? "Saving..." : "Save Stock"}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </>
