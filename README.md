@@ -75,9 +75,8 @@ The mock server (running on port 4000) provides the following endpoints:
 - `GET /categories/:id`: Get a category by ID
 - `GET /categories?slug=:slug`: Get a category by slug
 
-### Create Product
-- `POST /products`: Create a new product
-
+### Add Product Button
+- `POST /products`: Add a new product
 **Required Fields:**
 - `title`: String
 - `price`: Number
@@ -90,6 +89,55 @@ The mock server (running on port 4000) provides the following endpoints:
 - `id`: Sequential ID
 - `sku`: Generated SKU (format: CAT-BRA-TIT-ID)
 - `meta`: Creation and update timestamps
+
+## ➕ Adding New Products
+
+Click the **Add Product** button in the top navigation header to open the item creation form.
+
+<p align="center">
+  <img src="./public/Header_page.png" alt="Header Navigation Bar" width="800" style="border-radius: 6px;" />
+</p>
+
+## Form Features & Fields:
+* **Required Fields:** `Title`, `Price`, and `Stock Quantity`.
+* **Auto-Generated Identifiers:** Unique Product `ID` and `SKU` are generated programmatically upon submission.
+* **Category Selection:** Categories are mapped and selected using numerical category codes.
+* **Default Warranty:** Automatically assigned a default **1-week warranty** if not specified.
+* **SEO & Tagging:** Supports comma-separated tags (e.g., `electronics, smart, wireless`) for enhanced searchability.
+* **Image Upload:** Supports custom image URLs (with automated fallback placeholder handling).
+* **Navigation Options:** Includes **Cancel / Back** actions to return to the inventory dashboard without saving changes.
+* **Database Sync:** Clicking **Save Product** executes a Next.js Server Action to update the database and invalidate cached views instantly.
+Auto-Generated Identifiers
+<p align="center">
+  <img src="./public/addProductform.png" alt="Add Product Form Modal" width="800" style="border-radius: 6px;" />
+</p>
+
+### Auto-Generated Identifiers: Unique Product `ID` and `SKU` are generated programmatically upon submission.
+<p align="center">
+  <img src="./public/after admdimng Product.png" alt="Next id generator" width="850" style="border-radius: 8px;" />
+</p>
+
+
+### 📊 Interactive Summary Cards
+
+The inventory dashboard features real-time summary cards at the top of the page to give administrators an instant overview of stock distribution and catalog health.
+
+<p align="center">
+  <img src="./public/summary_summary.png" alt="Summary Cards Preview" width="850" style="border-radius: 8px;" />
+</p>
+
+#### Metrics Tracked:
+* **Total Products:** Live count of all active items in the inventory database.
+* **In Stock:** Items with healthy inventory levels (`stock > 10`).
+* **Low Stock:** Warning threshold for items requiring replenishment (`1 <= stock <= 15`)
+* **Out of Stock:** Items with zero inventory remaining (`stock == 0`)
+
+#### Key Architecture Highlights:
+* **Single-Pass Reduction:** Calculates all four values in a single pass on the server to optimize response times
+* **Instant Revalidation:** Purged dynamically using Next.js `revalidateTag("products-summary", "max")` whenever a product is added or deleted.
+
+
+
 
 ### Pagination & Sorting (json-server 0.17.4)
 See [json-server documentation](https://github.com/typicode/json-server/tree/v0.17.4) for more information.
