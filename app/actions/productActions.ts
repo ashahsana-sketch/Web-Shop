@@ -82,3 +82,19 @@ export async function addProduct(prevState: any, formData: FormData) {
     return { success: false, error: err.message || "Something went wrong" };
   }
 }
+
+export async function deleteProduct(productId: number) {
+  if (!Number.isInteger(productId) || productId <= 0) {
+    throw new Error("Invalid product ID");
+  }
+
+  const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Unable to delete product ${productId}`);
+  }
+
+  revalidatePath("/");
+}
