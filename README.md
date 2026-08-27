@@ -206,7 +206,7 @@ Administrators can remove products directly from the interactive table view. Cli
 * **Non-Blocking UI:** Executed within React's `useTransition` hook to provide instant visual feedback (row opacity change) while the network request resolves
 
 <p align="center">
-  <img src="./public/after_click_delete_button.png" alt="Delete Product Action Preview" width="850" style="border-radius: 8px;" />
+  <img src="./public/after_click_delete_button.png" alt="Delete Product Action Preview" width="850" style="border-radius: 8px;" />
 </p>
 
 <table width="100%">
@@ -236,6 +236,20 @@ Administrators can remove products directly from the interactive table view. Cli
   </tbody>
 </table>
 
+### 🔍 Product Table, Filtering & Search
+
+The product table is the primary workspace for administrators — refactored into isolated `ProductTable` and `ProductRow` components for maintainability, with all styling migrated from BEM CSS to Tailwind.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/32f08d41-4159-4429-9b0c-4c28039c84ec" alt="Product Table Search & Filter Bar" width="850" style="border-radius: 8px;" />
+</p>
+
+#### Table Features:
+* **Search:** Full-text search across product titles.
+* **Filtering:** Narrow results by category or stock status — selections are applied via an explicit **Filter** button rather than updating live.
+* **Sort Order:** Products are listed newest-first (`_sort=id&_order=desc`); there is currently no user-driven column sorting.
+* **Data Ownership:** Products missing a brand display as `"Generic"` instead of `"Unknown brand"`, to avoid implying data that doesn't exist.
+
 ### Pagination & Sorting (json-server 0.17.4)
 See [json-server documentation](https://github.com/typicode/json-server/tree/v0.17.4) for more information.
 
@@ -263,4 +277,3 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
