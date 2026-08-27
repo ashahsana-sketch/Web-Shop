@@ -11875,6 +11875,43 @@
       ],
       "thumbnail": "https://picsum.photos/seed/picsum/200/300",
       "id": 196
+    },
+    {
+      "title": "Laptop",
+      "brand": "Dell",
+      "price": 10000,
+      "stock": 5,
+      "weight": 0,
+      "sku": "LAP-DEL-LAP-197",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 7,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-27T08:36:54.235Z",
+        "updatedAt": "2026-08-27T08:36:54.235Z",
+        "barcode": "2722309470557",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 197
     }
   ],
   "categories": [

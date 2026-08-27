@@ -3,7 +3,6 @@ import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
 import SearchBar from "./components/SearchBar";
 import ProductTable from "./components/ProductTable";
-const defaultLimit = "6";
 
 const DEFAULT_LIMIT = "6";
 const API_BASE_URL = "http://localhost:4000";
@@ -33,16 +32,13 @@ export default async function Home({ searchParams }: HomeProps) {
   if (stock === "low") stockFilter = "&stock_gte=1&stock_lte=10";
   if (stock === "out") stockFilter = "&stock=0";
 
-  const paginatedUrl = `${API_BASE_URL}/products?_page=${currentPage}&_limit=${DEFAULT_LIMIT}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}`;
-  const allProductsUrl = `${API_BASE_URL}/products?_limit=1000`;
-  const categoriesUrl = `${API_BASE_URL}/categories`;
   const searchFilter = search?.trim()
     ? `&q=${encodeURIComponent(search.trim())}`
     : "";
 
-  const { products, total, page, pages, limit }: ProductsResponse = await fetch(
-    `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}${searchFilter}`,
-  ).then((res) => res.json());
+  const paginatedUrl = `${API_BASE_URL}/products?_page=${currentPage}&_limit=${DEFAULT_LIMIT}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}${searchFilter}`;
+  const allProductsUrl = `${API_BASE_URL}/products?_limit=1000`;
+  const categoriesUrl = `${API_BASE_URL}/categories`;
 
   // 2. Parallel fetch with Next.js cache tags
   const [paginatedData, allProductsData, categoriesData] = await Promise.all([
