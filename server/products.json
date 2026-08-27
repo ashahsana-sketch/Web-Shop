@@ -11801,43 +11801,6 @@
       ],
       "thumbnail": "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/thumbnail.webp",
       "categoryId": 24
-    },
-    {
-      "title": "Laåtop",
-      "brand": "Generic",
-      "price": 4356,
-      "stock": 76,
-      "weight": 0,
-      "sku": "BEA-GEN-LAÅ-195",
-      "rating": 0,
-      "tags": [
-        "beauty"
-      ],
-      "warrantyInformation": "1 week warranty",
-      "categoryId": 1,
-      "description": "New product description",
-      "discountPercentage": 0,
-      "dimensions": {
-        "width": 0,
-        "height": 0,
-        "depth": 0
-      },
-      "shippingInformation": "Ships in 3-5 business days",
-      "availabilityStatus": "In Stock",
-      "reviews": [],
-      "returnPolicy": "No return policy",
-      "minimumOrderQuantity": 1,
-      "meta": {
-        "createdAt": "2026-08-27T09:23:39.860Z",
-        "updatedAt": "2026-08-27T09:23:39.860Z",
-        "barcode": "6044231357910",
-        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
-      },
-      "images": [
-        "https://picsum.photos/seed/picsum/200/300"
-      ],
-      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
-      "id": 195
     }
   ],
   "categories": [
