@@ -1,8 +1,8 @@
 import type { Category, Product, ProductsResponse } from "./types";
 import Header from "./components/Header/Header";
 import SummaryCards from "./components/Summary-card/SummaryCard";
-import SearchBar from "./components/SearchBar";
-import ProductTable from "./components/ProductTable";
+import SearchBar from "./components/SearchBar/SearchBar";
+import ProductTable from "./components/product/ProductTable";
 const defaultLimit = "6";
 
 interface HomeProps {

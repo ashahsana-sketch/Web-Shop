@@ -2,7 +2,7 @@ import type { Product } from "@/app/types";
 import Link from "next/link";
 import Image from "next/image";
 import { productTableColumns } from "./productTableColumns";
-import { getStockStatus, normalizeStock } from "./productUtils";
+import { getStockStatus, normalizeStock } from "../productUtils";
 
 interface ProductRowProps {
   product: Product;
