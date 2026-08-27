@@ -5,6 +5,9 @@ import SearchBar from "./components/SearchBar";
 import ProductTable from "./components/ProductTable";
 const defaultLimit = "6";
 
+const DEFAULT_LIMIT = "6";
+const API_BASE_URL = "http://localhost:4000";
+
 interface HomeProps {
   searchParams: Promise<{
     page?: string;
@@ -15,32 +18,24 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
+  // 1. Next.js 15 requirement: await searchParams
   const params = await searchParams;
   const currentPage = Number(params.page ?? 1);
   const categoryId = params.categoryId;
   const stock = params.stock;
   const search = params.search;
 
-  // we use the fetch() method to get the products from the API
-  // in this fetch we sort using _sort and _order and we limit the number of products using _limit
-  // we also use _expand to get the relational category data
-  // we can use the other destructed variables like page, total and so on to create pagination or show info
-  //fetching data from the API and destructuring the response to get the products, total, page, pages and limit
+  // Build query filters
   const categoryFilter = categoryId ? `&categoryId=${categoryId}` : "";
   let stockFilter = "";
 
-  if (stock === "in") {
-    stockFilter = "&stock_gte=11";
-  }
+  if (stock === "in") stockFilter = "&stock_gte=11";
+  if (stock === "low") stockFilter = "&stock_gte=1&stock_lte=10";
+  if (stock === "out") stockFilter = "&stock=0";
 
-  if (stock === "low") {
-    stockFilter = "&stock_gte=1&stock_lte=10";
-  }
-
-  if (stock === "out") {
-    stockFilter = "&stock=0";
-  }
-
+  const paginatedUrl = `${API_BASE_URL}/products?_page=${currentPage}&_limit=${DEFAULT_LIMIT}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}`;
+  const allProductsUrl = `${API_BASE_URL}/products?_limit=1000`;
+  const categoriesUrl = `${API_BASE_URL}/categories`;
   const searchFilter = search?.trim()
     ? `&q=${encodeURIComponent(search.trim())}`
     : "";
@@ -49,41 +44,46 @@ export default async function Home({ searchParams }: HomeProps) {
     `http://localhost:4000/products?_page=${currentPage}&_limit=${defaultLimit}&_sort=id&_order=desc&_expand=category${categoryFilter}${stockFilter}${searchFilter}`,
   ).then((res) => res.json());
 
-  const allProductsResponse: { products: Product[] } = await fetch(
-    "http://localhost:4000/products?_limit=1000&_expand=category",
-  ).then((res) => res.json());
+  // 2. Parallel fetch with Next.js cache tags
+  const [paginatedData, allProductsData, categoriesData] = await Promise.all([
+    fetch(paginatedUrl, {
+      next: { tags: ["products"], revalidate: 60 },
+    }).then((res) => res.json() as Promise<ProductsResponse>),
 
-  const allProducts = allProductsResponse.products;
-  const inStock = allProducts.filter(
-    (product) => (product.stock ?? 0) > 10,
-  ).length;
+    fetch(allProductsUrl, {
+      next: { tags: ["products-summary"], revalidate: 60 },
+    }).then((res) => res.json() as Promise<{ products: Product[] }>),
 
-  const lowStock = allProducts.filter((product) => {
-    const stock = product.stock ?? 0;
+    fetch(categoriesUrl, {
+      next: { tags: ["categories"], revalidate: 3600 },
+    }).then((res) => res.json() as Promise<Category[]>),
+  ]);
 
-    return stock > 0 && stock <= 10;
-  }).length;
+  const { products, total, page, pages, limit } = paginatedData;
+  const allProducts = allProductsData.products ?? [];
 
-  const outOfStock = allProducts.filter(
-    (product) => (product.stock ?? 0) === 0,
-  ).length;
-
-  const categories: Category[] = await fetch(
-    "http://localhost:4000/categories",
-  ).then((res) => res.json());
+  // Single-pass reduction for summary cards
+  const summary = allProducts.reduce(
+    (acc, item) => {
+      const itemCount = item.stock ?? 0;
+      if (itemCount > 10) acc.inStock++;
+      else if (itemCount > 0) acc.lowStock++;
+      else acc.outOfStock++;
+      return acc;
+    },
+    { inStock: 0, lowStock: 0, outOfStock: 0 }
+  );
 
   return (
     <main>
       <Header />
-      {/* calling the Header component to display the header of the page */}
-      {/* calling the SummaryCards component to display the summary cards of the page */}
       <SummaryCards
         total={allProducts.length}
-        inStock={inStock}
-        lowStock={lowStock}
-        outOfStock={outOfStock}
+        inStock={summary.inStock}
+        lowStock={summary.lowStock}
+        outOfStock={summary.outOfStock}
       />
-      <SearchBar categories={categories} />
+      <SearchBar categories={categoriesData} />
       <div className="page-container">
         <ProductTable
           products={products}

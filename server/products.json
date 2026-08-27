@@ -11801,6 +11801,80 @@
       ],
       "thumbnail": "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/thumbnail.webp",
       "categoryId": 24
+    },
+    {
+      "title": "eye",
+      "brand": "Generic",
+      "price": 2,
+      "stock": 4,
+      "weight": 0,
+      "sku": "BEA-GEN-EYE-195",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-26T17:26:54.571Z",
+        "updatedAt": "2026-08-26T17:26:54.571Z",
+        "barcode": "5015361141025",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 195
+    },
+    {
+      "title": "yyfsz",
+      "brand": "Generic",
+      "price": 4,
+      "stock": 6,
+      "weight": 0,
+      "sku": "BEA-GEN-YYF-196",
+      "rating": 0,
+      "tags": [
+        "beauty"
+      ],
+      "warrantyInformation": "1 week warranty",
+      "categoryId": 1,
+      "description": "New product description",
+      "discountPercentage": 0,
+      "dimensions": {
+        "width": 0,
+        "height": 0,
+        "depth": 0
+      },
+      "shippingInformation": "Ships in 3-5 business days",
+      "availabilityStatus": "In Stock",
+      "reviews": [],
+      "returnPolicy": "No return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2026-08-26T18:04:00.962Z",
+        "updatedAt": "2026-08-26T18:04:00.962Z",
+        "barcode": "7102815073777",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "images": [
+        "https://picsum.photos/seed/picsum/200/300"
+      ],
+      "thumbnail": "https://picsum.photos/seed/picsum/200/300",
+      "id": 196
     }
   ],
   "categories": [
