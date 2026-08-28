@@ -191,6 +191,20 @@ The inventory dashboard features real-time summary cards at the top of the page 
 * **Instant Revalidation:** Purged dynamically using Next.js `revalidateTag("products-summary", "max")` whenever a product is added or deleted.
 
 
+
+### 🔍 Product Table, Filtering & Search
+
+The product table is the primary workspace for administrators — refactored into isolated `ProductTable` and `ProductRow` components for maintainability, with all styling migrated from BEM CSS to Tailwind.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/32f08d41-4159-4429-9b0c-4c28039c84ec" alt="Product Table Search & Filter Bar" width="850" style="border-radius: 8px;" />
+</p>
+
+#### Table Features:
+* **Search:** Full-text search across product titles.
+* **Filtering:** Narrow results by category or stock status — selections are applied via an explicit **Filter** button rather than updating live.
+* **Sort Order:** Products are listed newest-first (`_sort=id&_order=desc`); there is currently no user-driven column sorting.
+* **Data Ownership:** Products missing a brand display as `"Generic"` instead of `"Unknown brand"`, to avoid implying data that doesn't exist.
 ### 🗑️ Delete Product Workflow
 
 Administrators can remove products directly from the interactive table view. Clicking the delete action triggers a browser confirmation dialog to prevent accidental deletions.
@@ -236,19 +250,6 @@ Administrators can remove products directly from the interactive table view. Cli
   </tbody>
 </table>
 
-### 🔍 Product Table, Filtering & Search
-
-The product table is the primary workspace for administrators — refactored into isolated `ProductTable` and `ProductRow` components for maintainability, with all styling migrated from BEM CSS to Tailwind.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/32f08d41-4159-4429-9b0c-4c28039c84ec" alt="Product Table Search & Filter Bar" width="850" style="border-radius: 8px;" />
-</p>
-
-#### Table Features:
-* **Search:** Full-text search across product titles.
-* **Filtering:** Narrow results by category or stock status — selections are applied via an explicit **Filter** button rather than updating live.
-* **Sort Order:** Products are listed newest-first (`_sort=id&_order=desc`); there is currently no user-driven column sorting.
-* **Data Ownership:** Products missing a brand display as `"Generic"` instead of `"Unknown brand"`, to avoid implying data that doesn't exist.
 
 ### Pagination & Sorting (json-server 0.17.4)
 See [json-server documentation](https://github.com/typicode/json-server/tree/v0.17.4) for more information.
